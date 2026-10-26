@@ -124,22 +124,18 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                int numberOfUsers = users.size();
-
-                for(int c = 0; c < numberOfUsers; c++){
-                    if(registrationUsername.getText().toString().equals(users.get(c).getUsername())){
-                        isUsernameEdited = true;
-                        hasUsernameErrors = true;
-                        usernameContainer.setHelperText("Username already in use");
-                    } else if(registrationUsername.getText().toString().equals("")){
-                        isUsernameEdited = true;
-                        hasUsernameErrors = true;
-                        usernameContainer.setHelperText("Username cannot be empty");
-                    } else {
-                        isUsernameEdited = true;
-                        hasUsernameErrors = false;
-                        usernameContainer.setHelperText("");
-                    }
+                if(isUsernameInUse(registrationUsername.getText().toString())){
+                    isUsernameEdited = true;
+                    hasUsernameErrors = true;
+                    usernameContainer.setHelperText("Username already in use");
+                } else if(registrationUsername.getText().toString().equals("")){
+                    isUsernameEdited = true;
+                    hasUsernameErrors = true;
+                    usernameContainer.setHelperText("Username cannot be empty");
+                } else {
+                    isUsernameEdited = true;
+                    hasUsernameErrors = false;
+                    usernameContainer.setHelperText("");
                 }
 
                 isUsernameChecked = checkInputValidation
@@ -165,26 +161,22 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                int numberOfUsers = users.size();
-
-                for(int c = 0; c < numberOfUsers; c++){
-                    if(registrationEmail.getText().toString().equals(users.get(c).getEmail())){
-                        isEmailChecked = true;
-                        hasEmailErrors = true;
-                        emailContainer.setHelperText("Email already in use");
-                    } else if(registrationEmail.getText().toString().equals("")){
-                        isEmailChecked = true;
-                        hasEmailErrors = true;
-                        emailContainer.setHelperText("Email cannot be empty");
-                    } else if(!registrationEmail.getText().toString().matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")){
-                        isEmailEdited = true;
-                        hasEmailErrors = true;
-                        emailContainer.setHelperText("Invalid email format");
-                    }else {
-                            isEmailChecked = true;
-                            hasEmailErrors = false;
-                            emailContainer.setHelperText("");
-                        }
+                if(isEmailInUse(registrationEmail.getText().toString())){
+                    isEmailChecked = true;
+                    hasEmailErrors = true;
+                    emailContainer.setHelperText("Email already in use");
+                } else if(registrationEmail.getText().toString().equals("")){
+                    isEmailChecked = true;
+                    hasEmailErrors = true;
+                    emailContainer.setHelperText("Email cannot be empty");
+                } else if(!registrationEmail.getText().toString().matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")){
+                    isEmailEdited = true;
+                    hasEmailErrors = true;
+                    emailContainer.setHelperText("Invalid email format");
+                } else {
+                    isEmailChecked = true;
+                    hasEmailErrors = false;
+                    emailContainer.setHelperText("");
                 }
 
                 isEmailChecked = checkInputValidation
@@ -285,6 +277,24 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
         return isSecondPasswordChecked;
+    }
+
+    // Ritorna true se lo username è già usato da un utente registrato
+    private boolean isUsernameInUse(String username){
+        for(User user : users){
+            if(user.getUsername().equals(username))
+                return true;
+        }
+        return false;
+    }
+
+    // Ritorna true se l'email è già usata da un utente registrato
+    private boolean isEmailInUse(String email){
+        for(User user : users){
+            if(user.getEmail().equals(email))
+                return true;
+        }
+        return false;
     }
 
     // Ritorna true solo se tutti i campi di input sono validati correttamente
