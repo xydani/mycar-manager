@@ -1,7 +1,5 @@
 package com.example.mycarmanager;
 
-import java.util.ArrayList;
-
 class AirConditioning {
     public Boolean isAirConditioningOn;
     public float temperature;
@@ -80,7 +78,6 @@ public class Car {
     private String doors, weight, seats, abs, gears, consumption, emissions, horsepower;
     private String acceleration, fuelOrEnergyLevel;
     private double latitude, longitude;
-    protected ArrayList<Car> cars = new ArrayList<>();
 
     // Variabili impostazioni manage
     private Boolean isPowerOn;
@@ -125,19 +122,6 @@ public class Car {
         this.isCarUnlocked = isCarUnlocked;
         this.radio = new Radio(radio.isRadioOn, radio.radioStation, radio.volume);
         this.areLightsOn = areLightsOn;
-
-        boolean check = false;
-
-        for(int i = 0; i < cars.size(); i++){
-
-            if(cars.get(i).getPlate().equals(plate)) {
-                check = true;
-                break;
-            }
-        }
-
-        if(!check)
-            cars.add(this);
     }
 
     public double getLatitude() {
