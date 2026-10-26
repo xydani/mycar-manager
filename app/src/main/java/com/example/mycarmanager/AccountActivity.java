@@ -4,14 +4,15 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,6 +29,18 @@ public class AccountActivity extends NavigationActivity {
     private TextInputEditText usernameField, emailField, passwordField;
     private TextInputLayout passwordLayout, usernameLayout, emailLayout;
     private ImageView uploadProfileImage;
+
+    // Selezione dell'immagine del profilo dai documenti del dispositivo
+    private final ActivityResultLauncher<String[]> pickProfileImage = registerForActivityResult(
+            new ActivityResultContracts.OpenDocument(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri imgUri) {
+                    // imgUri è null se l'utente chiude la selezione senza scegliere un file
+                    if(imgUri != null)
+                        updateProfileImage(imgUri);
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,25 +65,18 @@ public class AccountActivity extends NavigationActivity {
         initValidation();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+    private void updateProfileImage(Uri imgUri){
+        String fileType = getContentResolver().getType(imgUri);
 
-        super.onActivityResult(requestCode, resultCode, data);
+        if(fileType != null && (fileType.equals("image/jpeg") || fileType.equals("image/png"))) {
 
-        if(requestCode == 1 && resultCode == RESULT_OK && null != data) {
-            Uri imgUri = data.getData();
-
-            String fileType = getContentResolver().getType(imgUri);
-
-            if(fileType != null && (fileType.equals("image/jpeg") || fileType.equals("image/png"))) {
-
-                getContentResolver().takePersistableUriPermission(imgUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                currentUser.setImageUri(imgUri.toString());
-                updateUserData();
-                updateData();
-            } else {
-                Toast.makeText(this, R.string.error_image_type, Toast.LENGTH_SHORT).show();
-            }
+            // Mantiene l'accesso al file anche dopo il riavvio dell'activity
+            getContentResolver().takePersistableUriPermission(imgUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            currentUser.setImageUri(imgUri.toString());
+            updateUserData();
+            updateData();
+        } else {
+            Toast.makeText(this, R.string.error_image_type, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -101,9 +107,7 @@ public class AccountActivity extends NavigationActivity {
             @Override
             public void onClick(View view) {
 
-                Intent uploadImageIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                uploadImageIntent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(uploadImageIntent, 1);
+                pickProfileImage.launch(new String[] {"image/jpeg", "image/png"});
             }
         });
 
