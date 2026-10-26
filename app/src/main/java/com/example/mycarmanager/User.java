@@ -1,11 +1,10 @@
 package com.example.mycarmanager;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User implements Serializable {
+public class User {
 
     private String username, password, email, imgPath;
     private ArrayList<Car> garage = new ArrayList<>();
