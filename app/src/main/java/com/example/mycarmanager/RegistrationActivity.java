@@ -18,18 +18,18 @@ import static com.example.mycarmanager.LoginActivity.currentUserIndex;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private static boolean isUsernameEdited = false;
-    private static boolean hasUsernameErrors = false;
-    private static boolean isEmailEdited = false;
-    private static boolean hasEmailErrors = false;
-    private static boolean isFirstPasswordEdited = false;
-    private static boolean hasFirstPasswordErrors = false;
-    private static boolean isSecondPasswordEdited = false;
-    private static boolean hasSecondPasswordErrors = false;
-    private static boolean isUsernameChecked = false;
-    private static boolean isEmailChecked = false;
-    private static boolean isFirstPasswordChecked = false;
-    private static boolean isSecondPasswordChecked = false;
+    private boolean isUsernameEdited = false;
+    private boolean hasUsernameErrors = false;
+    private boolean isEmailEdited = false;
+    private boolean hasEmailErrors = false;
+    private boolean isFirstPasswordEdited = false;
+    private boolean hasFirstPasswordErrors = false;
+    private boolean isSecondPasswordEdited = false;
+    private boolean hasSecondPasswordErrors = false;
+    private boolean isUsernameChecked = false;
+    private boolean isEmailChecked = false;
+    private boolean isFirstPasswordChecked = false;
+    private boolean isSecondPasswordChecked = false;
     private TextView loginLink;
     private MaterialButton signupButton;
     private TextInputEditText registrationUsername, registrationEmail, registrationPassword, registrationPasswordRepeat;

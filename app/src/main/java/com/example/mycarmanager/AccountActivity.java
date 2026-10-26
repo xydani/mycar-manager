@@ -35,12 +35,12 @@ import static com.example.mycarmanager.User.imageMap;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private static boolean usrB = false;
-    private static boolean usrE = false;
-    private static boolean emlB = false;
-    private static boolean emlE = false;
-    private static boolean pswB = false;
-    private static boolean pswE = false;
+    private boolean usrB = false;
+    private boolean usrE = false;
+    private boolean emlB = false;
+    private boolean emlE = false;
+    private boolean pswB = false;
+    private boolean pswE = false;
 
     private CircleImageView navbarProfilePic, profilePic;
     private DrawerLayout drawerLayout;
