@@ -102,68 +102,44 @@ public class DeviceSelectionActivity extends ThemedActivity {
             }
         });
 
-        // DA IMPLEMENTARE: Sistema che redirecti l'utente al garage se loggato, altrimenti al login
         // Listener tasto indietro
         cancelConnectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(users.get(currentUserIndex).getGarage().size() > 0){
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(DeviceSelectionActivity.this, R.style.TutorialAlertDialogStyle).create();
-                    alertDialog.setTitle("ABORT CONNECTION?");
-                    alertDialog.setMessage("Are you sure you want to abort the connection process?" +
-                            " By clicking YES you will be redirect to the Garage page!");
-
-                    // Tasto negativo [continua con la connessione]
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-
-                    // Tasto affermativo [esci dalla pagina]
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent returnToGarage;
-                                    returnToGarage = new Intent(DeviceSelectionActivity.this, CarGarageActivity.class);
-                                    startActivity(returnToGarage);
-                                    DeviceSelectionActivity.this.finish();
-                                }
-                            });
-                    alertDialog.show();
-                } else {
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(DeviceSelectionActivity.this, R.style.TutorialAlertDialogStyle).create();
-                    alertDialog.setTitle("ABORT CONNECTION?");
-                    alertDialog.setMessage("Are you sure you want to abort the connection process?" +
-                            " By clicking YES you will be redirect to the Login page!");
-
-                    // Tasto negativo [continua con la connessione]
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-
-                    // Tasto affermativo [esci dalla pagina]
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent returnToLogin;
-                                    returnToLogin = new Intent(DeviceSelectionActivity.this, LoginActivity.class);
-                                    startActivity(returnToLogin);
-                                    DeviceSelectionActivity.this.finish();
-                                }
-                            });
-                    alertDialog.show();
-                }
+                // Chi ha già almeno un'auto torna al garage, altrimenti al login
+                if(users.get(currentUserIndex).getGarage().size() > 0)
+                    showAbortDialog("Garage", CarGarageActivity.class);
+                else
+                    showAbortDialog("Login", LoginActivity.class);
             }
         });
+    }
+
+    // Chiede conferma prima di interrompere la connessione e tornare alla pagina indicata
+    private void showAbortDialog(String pageName, final Class<?> returnActivity) {
+        AlertDialog alertDialog = new AlertDialog.Builder(DeviceSelectionActivity.this, R.style.TutorialAlertDialogStyle).create();
+        alertDialog.setTitle("ABORT CONNECTION?");
+        alertDialog.setMessage("Are you sure you want to abort the connection process?" +
+                " By clicking YES you will be redirect to the " + pageName + " page!");
+
+        // Tasto negativo [continua con la connessione]
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        // Tasto affermativo [esci dalla pagina]
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(DeviceSelectionActivity.this, returnActivity));
+                        DeviceSelectionActivity.this.finish();
+                    }
+                });
+        alertDialog.show();
     }
 }
