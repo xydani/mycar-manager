@@ -30,7 +30,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import de.hdodenhof.circleimageview.CircleImageView;
 import static com.example.mycarmanager.LoginActivity.currentUserIndex;
 import static com.example.mycarmanager.User.users;
-import static com.example.mycarmanager.User.imageMap;
 
 
 public class AccountActivity extends AppCompatActivity {
@@ -101,7 +100,7 @@ public class AccountActivity extends AppCompatActivity {
                 profilePic.setImageURI(imgUri);
                 navbarProfilePic.setImageURI(imgUri);
                 String imgStringUri = imgUri.toString();
-                imageMap.put(currentUser.getUsername(), imgStringUri);
+                currentUser.setImageUri(imgStringUri);
                 updateData(selectedTheme);
             } else {
                 Toast.makeText(this, "Select a PNG or JPG file", Toast.LENGTH_SHORT).show();
@@ -354,7 +353,7 @@ public class AccountActivity extends AppCompatActivity {
         //Immagine del profilo, sia navbar che main page
         Uri uri;
         String stringUri;
-        if((stringUri = imageMap.get(currentUser.getUsername())) != null){
+        if((stringUri = currentUser.getImageUri()) != null){
             uri = Uri.parse(stringUri);
             profilePic.setImageURI(uri);
             navbarProfilePic.setImageURI(uri);

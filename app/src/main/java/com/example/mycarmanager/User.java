@@ -1,15 +1,14 @@
 package com.example.mycarmanager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class User {
 
     private String username, password, email, imgPath;
+    // Uri dell'immagine del profilo scelta dalla galleria, null se non impostata
+    private String imageUri;
     private ArrayList<Car> garage = new ArrayList<>();
     protected static ArrayList<User> users = new ArrayList<>();
-    protected static Map<String, String> imageMap = new HashMap<>();
     protected static boolean adminCreated = false;
 
     public User(){
@@ -129,6 +128,14 @@ public class User {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
     public ArrayList<Car> getGarage() {

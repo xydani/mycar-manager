@@ -2,7 +2,6 @@ package com.example.mycarmanager;
 
 import static com.example.mycarmanager.LoginActivity.currentCarIndex;
 import static com.example.mycarmanager.LoginActivity.currentUserIndex;
-import static com.example.mycarmanager.User.imageMap;
 import static com.example.mycarmanager.User.users;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -387,7 +386,7 @@ public class CarAlertsActivity extends AppCompatActivity {
         //Immagine del profilo, sia navbar che main page
         Uri uri;
         String stringUri;
-        if((stringUri = imageMap.get(currentUser.getUsername())) != null) {
+        if((stringUri = currentUser.getImageUri()) != null) {
             uri = Uri.parse(stringUri);
             navbarProfilePic.setImageURI(uri);
         } else {
