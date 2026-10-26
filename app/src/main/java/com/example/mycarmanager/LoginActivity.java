@@ -1,6 +1,7 @@
 package com.example.mycarmanager;
 
 import static com.example.mycarmanager.User.users;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -77,6 +78,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Quando si clicca sull'apposito link si viene mandati alla pagina di registrazione
+        // Tasto indietro: finishAffinity chiude tutte le activity dello stack, quindi l'applicazione
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finishAffinity();
+            }
+        });
+
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,11 +110,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         return false;
-    }
-
-    // finishAffinity chiude tutte le activity dello stack, quindi l'applicazione
-    @Override
-    public void onBackPressed() {
-        finishAffinity();
     }
 }

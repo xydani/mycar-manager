@@ -1,6 +1,7 @@
 package com.example.mycarmanager;
 
 import static com.example.mycarmanager.User.users;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import android.content.Intent;
@@ -45,6 +46,14 @@ public class RegistrationActivity extends AppCompatActivity {
         signupButton.setEnabled(false);
 
         // Quando si clicca sull'apposito link si viene mandati alla pagina di login
+        // Tasto indietro: si torna alla pagina di login
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                goToLogin();
+            }
+        });
+
         loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,10 +167,5 @@ public class RegistrationActivity extends AppCompatActivity {
 
         signupButton.setEnabled(valid);
         signupButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, color)));
-    }
-
-    @Override
-    public void onBackPressed() {
-        goToLogin();
     }
 }
