@@ -12,13 +12,13 @@ import java.util.Random;
 public class SuccessfullConnectionActivity extends ThemedActivity {
     private final Handler handler = new Handler(Looper.getMainLooper());
 
-    // Porta al garage, chiudendo questa pagina e le eventuali pagine aperte sopra il garage
+    // Porta al garage, che diventa l'unica pagina aperta: Back dal garage chiude l'app
     private final Runnable goToGarage = new Runnable() {
         @Override
         public void run() {
             Intent goToHomePage;
             goToHomePage = new Intent(SuccessfullConnectionActivity.this, CarGarageActivity.class);
-            goToHomePage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            goToHomePage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(goToHomePage);
             finish();
         }

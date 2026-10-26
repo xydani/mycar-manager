@@ -101,6 +101,8 @@ public abstract class NavigationActivity extends ThemedActivity {
     }
 
     // Collega un pulsante all'apertura di una pagina, tranne che per la pagina corrente
+    // Il garage è la pagina di base: le altre sezioni vengono aperte sopra il garage
+    // una alla volta, quindi Back da una sezione riporta sempre al garage
     private void initNavigationButton(int buttonId, final Class<?> activityClass) {
         View button = findViewById(buttonId);
 
@@ -110,8 +112,18 @@ public abstract class NavigationActivity extends ThemedActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NavigationActivity.this, activityClass));
+                Intent intent = new Intent(NavigationActivity.this, activityClass);
+
+                // Si torna al garage già aperto invece di aprirne uno nuovo
+                if (activityClass == CarGarageActivity.class)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
+
+                // La sezione corrente viene chiusa, il garage resta aperto sotto
+                if (!(NavigationActivity.this instanceof CarGarageActivity))
+                    finish();
             }
         });
     }

@@ -63,6 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                         Intent goToHomePage;
                         goToHomePage = new Intent(LoginActivity.this, CarGarageActivity.class);
                         startActivity(goToHomePage);
+
+                        // Il login viene chiuso: Back dal garage chiude l'app
+                        finish();
                     }
 
                 } else {
