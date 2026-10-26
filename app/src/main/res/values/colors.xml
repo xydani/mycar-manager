@@ -1,46 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="platinum">#E5E4E2</color>
-    <color name="selected_item_color">#4CAF50</color>
     <color name="material_500_red">#F44336</color>
-    <color name="material_500_light_green">#00FF0A</color>
-    <!--
-    <color name="page_title">#DDB892</color>
-    <color name="page_bottom_navbar">#7F5539</color>
-    <color name="page_left_navbar">#D9D9D9</color>
-    <color name="page_main">#EDE0D4</color>
-    <color name="page_main_buttons">#CFC2B5</color>
-    <color name="page_dividing_view">#B08968</color>
-    -->
 
     <!-- .. COLORI BOTTONI .. -->
-    <!--
-    <color name="ok_button">#66BB6A</color>
-    <color name="not_ok_button">#E57373</color>
-    <color name="edit_button">#FFEB3B</color>
-    <color name="try_again_button">#D9D9D9</color>
-    -->
     <color name="ok_button">#66ff66</color>
     <color name="not_ok_button">#ff6666</color>
     <color name="edit_button">#ffff99</color>
     <color name="try_again_button">#b5b5f7</color>
     <color name="not_clickable_button">#BBBBBB</color>
-    <color name="page_dividing_view_2">#000000</color>
     <color name="text_underline">#000000</color>
 
     <!-- .. COLORI PRINCIPALI APPLICAZIONE .. -->
     <color name="page_main">#FFFFFF</color>
     <color name="page_title">#005077</color>
     <color name="page_bottom_navbar">#003459</color>
-    <color name="page_left_navbar">#FFFFFF</color>
-    <color name="page_main_buttons">#CFC2B5</color>
     <color name="page_dividing_view">#00171F</color>
 
     <!-- .. COLORI TESTI .. -->

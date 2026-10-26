@@ -3,13 +3,6 @@
     <string name="registration_main">Sign-Up</string>
     <string name="welcome">WELCOME\!</string>
     <string name="login_button_text">Login</string>
-    <string name="signup_button_text">SIGNUP</string>
-    <string name="registration_helper_text">
-        The password must be at least 8 characters long and
-        must contain at least one uppercase letter, one
-        lowercase letter, a number and a special
-        character.
-    </string>
 
     <string name="registration_main_subtext">
         Create an account to enjoy the convenience
@@ -22,8 +15,6 @@
     <string name="login_link">
         <a href="">Already have an account\? Login\!</a>
     </string>
-
-    <string name="tutorial_end">CONTINUE</string>
 
     <string name="connection_tutorial_welcome">
         Follow the instructions to
@@ -56,16 +47,6 @@
         Connection established! Loading your personal homepage\.\.\.
     </string>
 
-    <string name="colour_blind_title">
-        WHAT IS COLOUR BLINDNESS?
-    </string>
-
-    <string name="colour_blind_description">
-        Color blindness results from retinal cone anomalies, causing difficulties in color perception,
-        including confusion between specific colors or limited color recognition.
-    </string>
-
-    <string name="title_activity_garage">activity_garage</string>
     <string name="title_activity_car_garage">activity_car_garage</string>
     <string name="image_uploader">image_uploader</string>
 
