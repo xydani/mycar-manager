@@ -39,7 +39,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
             bottomNavbarAlertsButton;
     private TextView navBarUsername, navbarEmail, carName, carPlate;
     private CircleImageView navbarProfilePic;
-    private MaterialButton navbarGarageButton, navbarManageButton, navbarMapButton, navbarFeaturesButton,
+    private MaterialButton navbarGarageButton, navbarManageButton, navbarFeaturesButton,
             navbarAccountButton, navbarNewCarButton, navbarColorCorrectionButton,
             navbarLogoutButton, navbarAlertsButton;
 
@@ -101,7 +101,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         navbarGarageButton = findViewById(R.id.navbarGarageButton);
         navbarLogoutButton = findViewById(R.id.navbarLogoutButton);
         navbarManageButton = findViewById(R.id.navbarManageButton);
-        navbarGarageButton = findViewById(R.id.navbarMapButton);
         navbarNewCarButton = findViewById(R.id.navbarNewCarButton);
         navbarAlertsButton = findViewById(R.id.navbarAlertsButton);
 
