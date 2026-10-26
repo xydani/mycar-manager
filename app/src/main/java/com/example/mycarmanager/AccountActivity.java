@@ -1,6 +1,5 @@
 package com.example.mycarmanager;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -16,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,7 +43,6 @@ public class AccountActivity extends AppCompatActivity {
     private static boolean pswE = false;
 
     private CircleImageView navbarProfilePic, profilePic;
-    private Dialog alertsDialog;
     private DrawerLayout drawerLayout;
     private int selectedTheme;
     private LinearLayout bottomNavbarFeaturesButton, bottomNavbarGarageButton,
@@ -576,25 +573,6 @@ public class AccountActivity extends AppCompatActivity {
         // Apre la navbar laterale
         drawerLayout.openDrawer(GravityCompat.START);
         navMenu.bringToFront();
-    }
-
-    public void showAlertsDialog() {
-        alertsDialog = new Dialog(AccountActivity.this);
-        alertsDialog.setContentView(R.layout.alerts_dialog);
-        alertsDialog.getWindow().getAttributes().windowAnimations = R.style.AlertsDialogAnimation;
-        alertsDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        alertsDialog.getWindow().getAttributes().gravity = Gravity.TOP;
-
-        ImageButton closeDialog = alertsDialog.findViewById(R.id.closeDialog);
-
-        closeDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertsDialog.dismiss();
-            }
-        });
-
-        alertsDialog.show();
     }
 
     // Ritorna true solo se tutti i campi di input sono validati correttamente
