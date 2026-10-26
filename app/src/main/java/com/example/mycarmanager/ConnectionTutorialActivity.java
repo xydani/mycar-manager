@@ -2,7 +2,6 @@ package com.example.mycarmanager;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,11 +10,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import static com.example.mycarmanager.LoginActivity.currentUserIndex;
 import com.google.android.material.button.MaterialButton;
 
 public class ConnectionTutorialActivity extends AppCompatActivity {

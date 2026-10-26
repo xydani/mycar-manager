@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
-import android.widget.Toast;
 import static com.example.mycarmanager.LoginActivity.currentUserIndex;
 import androidx.appcompat.app.AppCompatActivity;
 import static com.example.mycarmanager.User.users;
