@@ -232,6 +232,10 @@ public class RegistrationActivity extends AppCompatActivity {
                     firstPasswordContainer.setHelperText(null);
                 }
 
+                // Se la conferma è già stata inserita va ricontrollata con la nuova password
+                if(isSecondPasswordEdited)
+                    checkPasswordsMatch();
+
                 isFirstPasswordChecked = checkInputValidation
                         (
                                 isUsernameEdited, isEmailEdited, isFirstPasswordEdited, isSecondPasswordEdited,
@@ -255,15 +259,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                if(!registrationPassword.getText().toString().equals(registrationPasswordRepeat.getText().toString())) {
-                    isSecondPasswordEdited = true;
-                    hasSecondPasswordErrors = true;
-                    secondPasswordContainer.setHelperText("Passwords are not the same");
-                } else {
-                    isSecondPasswordEdited = true;
-                    hasSecondPasswordErrors = false;
-                    secondPasswordContainer.setHelperText(null);
-                }
+                checkPasswordsMatch();
 
                 isSecondPasswordChecked = checkInputValidation
                         (
@@ -277,6 +273,19 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
         return isSecondPasswordChecked;
+    }
+
+    // Controlla che la conferma coincida con la password
+    private void checkPasswordsMatch(){
+        if(!registrationPassword.getText().toString().equals(registrationPasswordRepeat.getText().toString())) {
+            isSecondPasswordEdited = true;
+            hasSecondPasswordErrors = true;
+            secondPasswordContainer.setHelperText("Passwords are not the same");
+        } else {
+            isSecondPasswordEdited = true;
+            hasSecondPasswordErrors = false;
+            secondPasswordContainer.setHelperText(null);
+        }
     }
 
     // Ritorna true se lo username è già usato da un utente registrato
