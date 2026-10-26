@@ -89,7 +89,8 @@ Device Selection ──┬──► Successful Connection ──► Garage
 ```
 
 Navigation between sections happens through a bottom navigation bar and a side drawer, both
-available on every main screen.
+available on every main screen. The garage is the base screen: opening a section closes the current
+one, so **Back** from any section returns to the garage, and Back from the garage closes the app.
 
 ---
 
@@ -103,7 +104,8 @@ Users can pick between four themes:
 - `PROTAN_THEME` — protanopia
 - `TRITAN_THEME` — tritanopia
 
-The choice is persisted in `SharedPreferences` and applied to every activity on startup.
+The choice is persisted in `SharedPreferences` and applied to every activity on startup; screens that
+are already open are recreated with the new theme when you return to them.
 The `ColorBlindFilter` class additionally applies colour-correction matrices
 (`ColorMatrixColorFilter`) to images, so the effect of a filter can be previewed before confirming.
 
@@ -113,16 +115,17 @@ The `ColorBlindFilter` class additionally applies colour-correction matrices
 
 | Component              | Version / detail                            |
 |------------------------|---------------------------------------------|
-| Language               | Java 8                                      |
-| Android Gradle Plugin  | 8.1.4                                       |
-| compileSdk / targetSdk | 33 / 32                                     |
+| Language               | Java 17                                     |
+| Build                  | Gradle 9.7.1, Android Gradle Plugin 9.4.1   |
+| compileSdk / targetSdk | 36 / 36 (edge-to-edge handled)              |
 | minSdk                 | 21 (Android 5.0 Lollipop)                   |
 | UI                     | XML layouts + Material Components 1.7.0     |
 | Layout                 | ConstraintLayout 2.1.4, DrawerLayout        |
 | Maps                   | Google Play Services Maps 18.1.0            |
-| Third-party libraries  | CircleImageView 3.1.0, Apache Commons Lang3 |
+| Third-party libraries  | CircleImageView 3.1.0                       |
+| Tests                  | JUnit 4 (validation rules and car catalogue)|
 
-Roughly 7,300 lines of Java across 16 classes, 24 XML layouts and more than 150 drawable resources.
+Roughly 2,650 lines of Java across 20 classes, 19 XML layouts and about 100 drawable resources.
 
 ---
 
@@ -135,8 +138,12 @@ MyCar-Manager/
 │   └── src/main/
 │       ├── AndroidManifest.xml
 │       ├── java/com/example/mycarmanager/
+│       │   ├── ThemedActivity.java                  # base: colour-blind theme + filtered images
+│       │   ├── NavigationActivity.java              # base: side drawer, bottom bar, car selection
+│       │   ├── SystemBars.java                      # edge-to-edge insets (Android 15+)
+│       │   ├── InputValidation.java                 # username, email and password rules
 │       │   ├── LoginActivity.java                   # authentication
-│       │   ├── RegistrationActivity.java            # sign-up + input validation
+│       │   ├── RegistrationActivity.java            # sign-up
 │       │   ├── ConnectionTutorialActivity.java      # OBD-II pairing tutorial
 │       │   ├── DeviceSelectionActivity.java         # device picker
 │       │   ├── SuccessfullConnectionActivity.java   # success screen
@@ -150,14 +157,15 @@ MyCar-Manager/
 │       │   ├── ColorBlindActivity.java              # accessible theme picker
 │       │   ├── ColorBlindFilter.java                # colour-correction matrices
 │       │   ├── User.java                            # user model + garage
-│       │   └── Car.java                             # car model (+ AirConditioning, Radio)
+│       │   └── Car.java                             # car model + catalogue (+ AirConditioning, Radio)
 │       └── res/
 │           ├── layout/    # activities and dialogs
 │           ├── drawable/  # icons, illustrations, vehicle images
 │           ├── values/    # themes.xml (4 themes), colors, strings, attr
-│           ├── anim/      # zoom in/out animations
-│           ├── font/      # Staatliches, Manjari
-│           └── menu/      # side drawer entries
+│           ├── anim/      # dialog zoom in/out animations
+│           └── font/      # Staatliches, Manjari
+│   └── src/test/          # JUnit tests
+├── gradle/wrapper/        # Gradle wrapper
 ├── build.gradle
 └── settings.gradle
 ```
@@ -166,8 +174,8 @@ MyCar-Manager/
 
 ## Requirements
 
-- Android Studio (Giraffe or newer)
-- JDK 17
+- A recent Android Studio release that supports Android Gradle Plugin 9.4
+- JDK 17 or newer (the project is built with JDK 21)
 - A device or emulator running Android 5.0 (API 21) or above
 - A Google Maps API key
 
@@ -186,6 +194,12 @@ Open the folder in Android Studio and wait for the Gradle sync, or build from th
 ./gradlew assembleDebug
 ```
 
+Run the unit tests with:
+
+```bash
+./gradlew test
+```
+
 ### Configuring the Google Maps API key
 
 The *Map* screen needs a valid key for the Google Maps SDK for Android.
@@ -195,17 +209,7 @@ Put it in `local.properties` (which is not tracked by git):
 MAPS_API_KEY=your_key_here
 ```
 
-then reference it from the manifest:
-
-```xml
-<meta-data
-    android:name="com.google.android.geo.API_KEY"
-    android:value="${MAPS_API_KEY}" />
-```
-
-For the placeholder to be resolved you need the
-[`secrets-gradle-plugin`](https://github.com/google/secrets-gradle-plugin), which reads the key from
-`local.properties`, or a `manifestPlaceholders` entry in `app/build.gradle`.
+`app/build.gradle` reads it and passes it to the manifest through the `${MAPS_API_KEY}` placeholder.
 
 Without a valid key the app still runs, but the map renders empty.
 
@@ -230,13 +234,10 @@ This is a UI-focused prototype, so a few parts are deliberately simulated:
 
 - **No data persistence.** Users and vehicles live in static in-memory lists and are wiped when the
   app closes. Only the selected theme is stored in `SharedPreferences`.
-- **No backend and no real communication with the car.** The Bluetooth permission is declared, but
+- **No backend and no real communication with the car.** The app only checks that Bluetooth is on;
   no OBD-II connection is actually established: the outcome depends on which device you pick on the
   selection screen.
 - **Plaintext credentials.** Passwords are compared as strings, with no hashing — fine for a demo,
   but it would need rewriting for real use.
-- **Static dataset.** The six vehicles, their GPS positions and the maintenance alerts are
-  hardcoded.
-- **Unused Jetpack Compose dependencies.** They come from the Android Studio template; the UI is
-  built entirely with XML layouts.
-  
+- **Static dataset.** The six vehicles (`Car.getCatalog()`), their GPS positions and the maintenance
+  alerts are hardcoded.
