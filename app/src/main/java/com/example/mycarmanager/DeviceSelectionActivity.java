@@ -136,7 +136,10 @@ public class DeviceSelectionActivity extends ThemedActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(DeviceSelectionActivity.this, returnActivity));
+                        // Torna alla pagina già aperta invece di aprirne una nuova
+                        Intent returnIntent = new Intent(DeviceSelectionActivity.this, returnActivity);
+                        returnIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(returnIntent);
                         DeviceSelectionActivity.this.finish();
                     }
                 });
