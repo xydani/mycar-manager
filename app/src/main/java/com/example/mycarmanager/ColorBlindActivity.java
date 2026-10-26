@@ -54,7 +54,8 @@ public class ColorBlindActivity extends NavigationActivity {
         proButton = findViewById(R.id.protanopiaButton);
         triButton = findViewById(R.id.tritanopiaButton);
 
-        activeButton = 0;
+        // Il pulsante selezionato all'apertura è quello del tema attivo
+        activeButton = selectedTheme - 1;
         activeMode = selectedTheme - 1;
     }
 
