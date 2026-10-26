@@ -32,6 +32,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private User currentUser;
     private Car currentCar;
+    private GoogleMap googleMap;
     private DrawerLayout drawerLayout;
     private NavigationView navMenu;
     private LinearLayout navMenuButton, bottomNavbarGarageButton;
@@ -317,9 +318,21 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void updateMap() {
-        // Impostazione della mappa
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapActual);
-        mapFragment.getMapAsync(this);
+        // La mappa potrebbe non essere ancora pronta: in quel caso ci pensa onMapReady
+        if (googleMap == null)
+            return;
+
+        // Rimuove il marker dell'auto precedente
+        googleMap.clear();
+
+        LatLng position = new LatLng(currentCar.getLatitude(), currentCar.getLongitude());
+        String title = currentCar.getBrand() + " " + currentCar.getName();
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(position)
+                .title(title));
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 16));
     }
 
     public void updateData(){
@@ -366,20 +379,8 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-
-        double latitude = currentUser.getGarage().get(currentCarIndex).getLatitude();
-        double longitude = currentUser.getGarage().get(currentCarIndex).getLongitude();
-        String title = currentUser.getGarage().get(currentCarIndex).getBrand() +
-                        " " +
-                        currentUser.getGarage().get(currentCarIndex).getName();
-
-        LatLng position = new LatLng(latitude, longitude);
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(title));
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 16));
+        this.googleMap = googleMap;
+        updateMap();
     }
 
     public void changeTheme (int newThemeId) {
