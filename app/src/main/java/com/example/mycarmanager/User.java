@@ -75,6 +75,18 @@ public class User {
         this.imgPath = imgPath;
     }
 
+    // Immagine del profilo predefinita, usata se non è stata scelta un'immagine dalla galleria
+    public int getImgResource() {
+        switch (imgPath) {
+            case "profile_pic_2": return R.drawable.profile_pic_2;
+            case "profile_pic_3": return R.drawable.profile_pic_3;
+            case "profile_pic_4": return R.drawable.profile_pic_4;
+            case "profile_pic_5": return R.drawable.profile_pic_5;
+            case "profile_pic_6": return R.drawable.profile_pic_6;
+            default: return R.drawable.default_profile_pic;
+        }
+    }
+
     public String getImageUri() {
         return imageUri;
     }

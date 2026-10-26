@@ -369,4 +369,47 @@ public class Car {
         this.airConditioning.powerLevel = airConditioning.powerLevel;
         this.airConditioning.temperature = airConditioning.temperature;
     }
+
+    // Immagine dell'auto
+    public int getCarImageResource() {
+        switch (brand) {
+            case "BMW": return R.drawable.car_bmw_img;
+            case "Volkswagen": return R.drawable.car_volkswagen_img;
+            case "Jeep": return R.drawable.car_jeep_img;
+            case "Skoda": return R.drawable.car_skoda_img;
+            case "Dodge": return R.drawable.car_dodge_img;
+            default: return R.drawable.car_toyota_img;
+        }
+    }
+
+    // Logo della marca
+    public int getBrandLogoResource() {
+        switch (brand) {
+            case "BMW": return R.drawable.logo_bmw_img;
+            case "Volkswagen": return R.drawable.logo_volkswagen_img;
+            case "Jeep": return R.drawable.logo_jeep_img;
+            case "Skoda": return R.drawable.logo_skoda_img;
+            case "Dodge": return R.drawable.logo_dodge_img;
+            default: return R.drawable.logo_toyota_img;
+        }
+    }
+
+    // Icona del tipo di carburante
+    public int getFuelImageResource() {
+        switch (fuelType) {
+            case "diesel": return R.drawable.garage1_dieselcar_img;
+            case "electric": return R.drawable.garage1_electriccar_img;
+            default: return R.drawable.garage1_petrolcar_img;
+        }
+    }
+
+    // Icona del tipo di auto
+    public int getCarTypeImageResource() {
+        switch (carType) {
+            case "suv": return R.drawable.garage_suv_front_icon;
+            case "citycar": return R.drawable.garage_citycar_front_icon;
+            case "sportive": return R.drawable.garage_sportivecar_front_icon;
+            default: return R.drawable.garage_sedancar_front_icon;
+        }
+    }
 }
