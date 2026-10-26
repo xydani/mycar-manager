@@ -337,8 +337,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        android:contentDescription="freccia sinistra"
-                        android:onClick="leftArrowClick" />
+                        android:contentDescription="freccia sinistra" />
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/carFunction"
@@ -381,8 +380,7 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"
-                        android:contentDescription="freccia destra"
-                        android:onClick="rightArrowClick"/>
+                        android:contentDescription="freccia destra"/>
 
                 </LinearLayout>
 
