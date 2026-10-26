@@ -2,6 +2,8 @@ package com.example.mycarmanager;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -85,11 +87,13 @@ public class ConnectionTutorialActivity extends ThemedActivity {
     }
 
     private boolean checkBluetooth() {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter mBluetoothAdapter = bluetoothManager != null ? bluetoothManager.getAdapter() : null;
 
         // Se il BluetoothAdapter è nullo o il Bluetooth non è abilitato, restituisci false.
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) { return false; }
 
         // Se il Bluetooth è disponibile e abilitato, restituisci true.
         return true;
-    }}
+    }
+}
