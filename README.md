@@ -22,7 +22,6 @@ whole interface also ships in three alternative colour schemes designed for colo
 - [Getting started](#getting-started)
 - [Demo credentials](#demo-credentials)
 - [Known limitations](#known-limitations)
-- [Author](#author)
 
 ---
 
