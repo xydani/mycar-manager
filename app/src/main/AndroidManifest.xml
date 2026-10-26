@@ -23,7 +23,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA_5_ohhyUbkBF1pfOrRHj40mjoj_GTXvE" />
+            android:value="${MAPS_API_KEY}" />
 
         <activity
             android:name=".CarManageActivity"

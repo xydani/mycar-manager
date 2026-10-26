@@ -2,6 +2,13 @@ plugins {
     id 'com.android.application'
 }
 
+// Chiave Google Maps letta da local.properties (non tracciato da git)
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+
 android {
     namespace = 'com.example.mycarmanager'
     compileSdk = 33
@@ -17,6 +24,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        manifestPlaceholders = [MAPS_API_KEY: localProperties.getProperty('MAPS_API_KEY', '')]
     }
 
     buildTypes {
