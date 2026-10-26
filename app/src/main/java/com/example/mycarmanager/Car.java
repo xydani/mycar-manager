@@ -1,5 +1,7 @@
 package com.example.mycarmanager;
 
+import java.util.ArrayList;
+
 class AirConditioning {
     public Boolean isAirConditioningOn;
     public float temperature;
@@ -122,6 +124,57 @@ public class Car {
         this.isCarUnlocked = isCarUnlocked;
         this.radio = new Radio(radio.isRadioOn, radio.radioStation, radio.volume);
         this.areLightsOn = areLightsOn;
+    }
+
+    // Catalogo delle auto disponibili, con dati di esempio (non c'è un vero collegamento all'auto)
+    // Ogni chiamata restituisce nuove istanze, così ogni utente ha il proprio stato delle auto
+    public static ArrayList<Car> getCatalog() {
+        ArrayList<Car> catalog = new ArrayList<>();
+
+        catalog.add(new Car("Volkswagen", "Polo", "volkswagenPolo",
+                "GH236FF", "petrol", "sedan", "5", "1478",
+                "5", "abs", "5", "22", "103", "76",
+                "10.9", "98", 39.222334, 9.114042,
+                true, 100, new AirConditioning(true,
+                18.0f, 3), true, new Radio(true,
+                103.2f, 25), false));
+        catalog.add(new Car("BMW", "I3", "bmwI3",
+                "GK211TR", "electric", "citycar", "5", "1345",
+                "5", "abs", "5", "12.9", "9.3", "170",
+                "7.1", "67", 40.72501018307786, 8.564402393845278,
+                false, 95, new AirConditioning(false,
+                0f, 0), false, new Radio(false,
+                0f, 0), false));
+        catalog.add(new Car("Jeep", "Cherokee", "jeepCherokee",
+                "GS011FA", "diesel", "suv", "5", "2097",
+                "5", "abs", "6", "15.7", "385", "380",
+                "6.3", "87", 40.32217776840813, 9.305939442833397,
+                true, 0, new AirConditioning(true,
+                28f, 4), false, new Radio(true,
+                69.2f, 10), true));
+        catalog.add(new Car("Skoda", "Enyaq", "skodaEniaq",
+                "PD007DS", "electric", "suv", "5", "2120",
+                "5", "abs", "6", "19.6", "112", "177",
+                "8.5", "50", 39.88222501781158, 8.60992834858646,
+                false, 25, new AirConditioning(false,
+                0f, 0), true, new Radio(true,
+                88.5f, 21), true));
+        catalog.add(new Car("Dodge", "Challenger", "dodgeChallenger",
+                "EL334BK", "petrol", "sportive", "3", "2032",
+                "5", "abs", "8", "14.6", "232", "375",
+                "6.8", "25", 40.966031679556814, 8.208155130870656,
+                true, 0, new AirConditioning(false,
+                0f, 0), false, new Radio(false,
+                0f, 0), false));
+        catalog.add(new Car("Toyota", "Yaris", "toyotaYaris",
+                "BR772WF", "diesel", "citycar", "3", "1170",
+                "5", "abs", "5", "8.2", "92", "116",
+                "11.2", "98", 40.21429794421172, 9.280052406532452,
+                true, 100, new AirConditioning(true,
+                16f, 3), false, new Radio(false,
+                0f, 0), true));
+
+        return catalog;
     }
 
     public double getLatitude() {
