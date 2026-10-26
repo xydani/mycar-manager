@@ -2,11 +2,10 @@ package com.example.mycarmanager;
 
 import static com.example.mycarmanager.User.users;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,18 +17,7 @@ import static com.example.mycarmanager.LoginActivity.currentUserIndex;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private boolean isUsernameEdited = false;
-    private boolean hasUsernameErrors = false;
-    private boolean isEmailEdited = false;
-    private boolean hasEmailErrors = false;
-    private boolean isFirstPasswordEdited = false;
-    private boolean hasFirstPasswordErrors = false;
     private boolean isSecondPasswordEdited = false;
-    private boolean hasSecondPasswordErrors = false;
-    private boolean isUsernameChecked = false;
-    private boolean isEmailChecked = false;
-    private boolean isFirstPasswordChecked = false;
-    private boolean isSecondPasswordChecked = false;
     private TextView loginLink;
     private MaterialButton signupButton;
     private TextInputEditText registrationUsername, registrationEmail, registrationPassword, registrationPasswordRepeat;
@@ -52,10 +40,7 @@ public class RegistrationActivity extends AppCompatActivity {
         secondPasswordContainer = findViewById(R.id.secondPasswordContainer);
 
         // Controlli input
-        checkUsername();
-        checkEmail();
-        checkFirstPassword();
-        checkSecondPassword();
+        initValidation();
 
         signupButton.setEnabled(false);
 
@@ -73,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(checkRegistrationData()) {
+                if(isFormValid()) {
 
                     User newUser = new User
                                     (registrationUsername.getText().toString(),
@@ -81,16 +66,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                     registrationEmail.getText().toString(),
                                     "default_profile_pic");
 
-                    int numberOfUsers = users.size();
-
                     // Aggiorna il currentUserIndex con l'indice dell'utente appena registrato
-                    for (int i = 0; i < numberOfUsers; i++){
-                        if(newUser.getUsername().equals(users.get(i).getUsername()) &&
-                                newUser.getPassword().equals(users.get(i).getPassword())){
-
-                            currentUserIndex = i;
-                        }
-                    }
+                    currentUserIndex = users.indexOf(newUser);
 
                     Intent goToConnectionTutorial;
 
@@ -109,220 +86,77 @@ public class RegistrationActivity extends AppCompatActivity {
         RegistrationActivity.this.finish();
     }
 
-    protected boolean checkRegistrationData(){
+    // Ogni campo mostra il proprio errore mentre viene modificato
+    private void initValidation(){
 
-        return checkInputValidation(isUsernameEdited, isEmailEdited, isFirstPasswordEdited, isSecondPasswordEdited,
-                        hasUsernameErrors, hasEmailErrors, hasFirstPasswordErrors, hasSecondPasswordErrors);
-    }
-
-    public boolean checkUsername(){
-
-        registrationUsername.addTextChangedListener(new TextWatcher() {
+        registrationUsername.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                if(isUsernameInUse(registrationUsername.getText().toString())){
-                    isUsernameEdited = true;
-                    hasUsernameErrors = true;
-                    usernameContainer.setHelperText("Username already in use");
-                } else if(registrationUsername.getText().toString().equals("")){
-                    isUsernameEdited = true;
-                    hasUsernameErrors = true;
-                    usernameContainer.setHelperText("Username cannot be empty");
-                } else {
-                    isUsernameEdited = true;
-                    hasUsernameErrors = false;
-                    usernameContainer.setHelperText("");
-                }
-
-                isUsernameChecked = checkInputValidation
-                        (
-                        isUsernameEdited, isEmailEdited, isFirstPasswordEdited, isSecondPasswordEdited,
-                        hasUsernameErrors, hasEmailErrors, hasFirstPasswordErrors, hasSecondPasswordErrors
-                        );
+            public void onInputChanged() {
+                String error = InputValidation.checkUsername(registrationUsername.getText().toString());
+                usernameContainer.setHelperText(error != null ? error : "");
+                updateSignupButton();
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
         });
 
-        return isUsernameChecked;
-    }
-
-    public boolean checkEmail(){
-
-        registrationEmail.addTextChangedListener(new TextWatcher() {
+        registrationEmail.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                if(isEmailInUse(registrationEmail.getText().toString())){
-                    isEmailEdited = true;
-                    hasEmailErrors = true;
-                    emailContainer.setHelperText("Email already in use");
-                } else if(registrationEmail.getText().toString().equals("")){
-                    isEmailEdited = true;
-                    hasEmailErrors = true;
-                    emailContainer.setHelperText("Email cannot be empty");
-                } else if(!registrationEmail.getText().toString().matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")){
-                    isEmailEdited = true;
-                    hasEmailErrors = true;
-                    emailContainer.setHelperText("Invalid email format");
-                } else {
-                    isEmailEdited = true;
-                    hasEmailErrors = false;
-                    emailContainer.setHelperText("");
-                }
-
-                isEmailChecked = checkInputValidation
-                        (
-                                isUsernameEdited, isEmailEdited, isFirstPasswordEdited, isSecondPasswordEdited,
-                                hasUsernameErrors, hasEmailErrors, hasFirstPasswordErrors, hasSecondPasswordErrors
-                        );
+            public void onInputChanged() {
+                String error = InputValidation.checkEmail(registrationEmail.getText().toString());
+                emailContainer.setHelperText(error != null ? error : "");
+                updateSignupButton();
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
         });
 
-        return isEmailChecked;
-    }
-
-    public boolean checkFirstPassword(){
-
-        registrationPassword.addTextChangedListener(new TextWatcher() {
+        registrationPassword.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                if(registrationPassword.getText().toString().equals("")) {
-                    isFirstPasswordEdited = true;
-                    hasFirstPasswordErrors = true;
-                    firstPasswordContainer.setHelperText("Password cannot be empty");
-                } else if(registrationPassword.getText().toString().length() < 8){
-                    isFirstPasswordEdited = true;
-                    hasFirstPasswordErrors = true;
-                    firstPasswordContainer.setHelperText("Must be at least 8 characters");
-                } else if(!registrationPassword.getText().toString().matches(".*[0-9].*")){
-                    isFirstPasswordEdited = true;
-                    hasFirstPasswordErrors = true;
-                    firstPasswordContainer.setHelperText("Must contain 1 number");
-                } else if(!registrationPassword.getText().toString().matches(".*[a-z].*")){
-                    isFirstPasswordEdited = true;
-                    hasFirstPasswordErrors = true;
-                    firstPasswordContainer.setHelperText("Must contain 1 lower-case letter");
-                } else if(!registrationPassword.getText().toString().matches(".*[A-Z].*")){
-                    isFirstPasswordEdited = true;
-                    hasFirstPasswordErrors = true;
-                    firstPasswordContainer.setHelperText("Must contain 1 upper-case letter");
-                } else if(registrationPassword.getText().toString().matches("[a-zA-Z0-9]*")){
-                    isFirstPasswordEdited = true;
-                    hasFirstPasswordErrors = true;
-                    firstPasswordContainer.setHelperText("Must contain 1 special character");
-                } else {
-                    isFirstPasswordEdited = true;
-                    hasFirstPasswordErrors = false;
-                    firstPasswordContainer.setHelperText(null);
-                }
+            public void onInputChanged() {
+                firstPasswordContainer.setHelperText(InputValidation.checkPassword(registrationPassword.getText().toString()));
 
                 // Se la conferma è già stata inserita va ricontrollata con la nuova password
                 if(isSecondPasswordEdited)
                     checkPasswordsMatch();
 
-                isFirstPasswordChecked = checkInputValidation
-                        (
-                                isUsernameEdited, isEmailEdited, isFirstPasswordEdited, isSecondPasswordEdited,
-                                hasUsernameErrors, hasEmailErrors, hasFirstPasswordErrors, hasSecondPasswordErrors
-                        );
+                updateSignupButton();
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
         });
 
-        return isFirstPasswordChecked;
-    }
-
-    public boolean checkSecondPassword(){
-
-        registrationPasswordRepeat.addTextChangedListener(new TextWatcher() {
+        registrationPasswordRepeat.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onInputChanged() {
+                isSecondPasswordEdited = true;
                 checkPasswordsMatch();
-
-                isSecondPasswordChecked = checkInputValidation
-                        (
-                                isUsernameEdited, isEmailEdited, isFirstPasswordEdited, isSecondPasswordEdited,
-                                hasUsernameErrors, hasEmailErrors, hasFirstPasswordErrors, hasSecondPasswordErrors
-                        );
+                updateSignupButton();
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
         });
-
-        return isSecondPasswordChecked;
     }
 
     // Controlla che la conferma coincida con la password
     private void checkPasswordsMatch(){
-        if(!registrationPassword.getText().toString().equals(registrationPasswordRepeat.getText().toString())) {
-            isSecondPasswordEdited = true;
-            hasSecondPasswordErrors = true;
-            secondPasswordContainer.setHelperText("Passwords are not the same");
-        } else {
-            isSecondPasswordEdited = true;
-            hasSecondPasswordErrors = false;
+        if(passwordsMatch())
             secondPasswordContainer.setHelperText(null);
-        }
+        else
+            secondPasswordContainer.setHelperText("Passwords are not the same");
     }
 
-    // Ritorna true se lo username è già usato da un utente registrato
-    private boolean isUsernameInUse(String username){
-        for(User user : users){
-            if(user.getUsername().equals(username))
-                return true;
-        }
-        return false;
+    private boolean passwordsMatch(){
+        return registrationPassword.getText().toString().equals(registrationPasswordRepeat.getText().toString());
     }
 
-    // Ritorna true se l'email è già usata da un utente registrato
-    private boolean isEmailInUse(String email){
-        for(User user : users){
-            if(user.getEmail().equals(email))
-                return true;
-        }
-        return false;
+    // Ritorna true solo se tutti i campi di input sono validi
+    private boolean isFormValid(){
+        return InputValidation.checkUsername(registrationUsername.getText().toString()) == null
+                && InputValidation.checkEmail(registrationEmail.getText().toString()) == null
+                && InputValidation.checkPassword(registrationPassword.getText().toString()) == null
+                && passwordsMatch();
     }
 
-    // Ritorna true solo se tutti i campi di input sono validati correttamente
-    public boolean checkInputValidation(boolean... args){
-        if(args.length < 8)
-            return false;
+    // Abilita il pulsante di registrazione solo se tutti i campi sono validi
+    private void updateSignupButton(){
+        boolean valid = isFormValid();
+        int color = valid ? R.color.ok_button : R.color.not_clickable_button;
 
-        boolean edited = args[0] && args[1] && args[2] && args[3];
-        boolean errors = !args[4] && !args[5] && !args[6] && !args[7];
-
-        if(edited && errors){
-            signupButton.setEnabled(true);
-            signupButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.ok_button)));
-            return true;
-        } else {
-            signupButton.setEnabled(false);
-            signupButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.not_clickable_button)));
-            return false;
-        }
+        signupButton.setEnabled(valid);
+        signupButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, color)));
     }
 
     @Override
