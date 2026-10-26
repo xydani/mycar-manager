@@ -446,6 +446,7 @@ public class CarFeaturesActivity extends AppCompatActivity {
 
             carConsumptionData.setText(currentCar.getConsumption() + "L/100Km");
             fuelLevelTitle.setText("Fuel level");
+            fuelLevelImage.setImageResource(R.drawable.stats_engine_fuellevel);
         }
 
         fuelLevelActual.setText(currentCar.getFuelOrEnergyLevel() + "%");
