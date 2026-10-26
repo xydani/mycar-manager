@@ -196,7 +196,6 @@ public class CarFeaturesActivity extends AppCompatActivity {
                 intent = new Intent(CarFeaturesActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 

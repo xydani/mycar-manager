@@ -124,7 +124,6 @@ public class CarAlertsActivity extends AppCompatActivity {
                 intent = new Intent(CarAlertsActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 

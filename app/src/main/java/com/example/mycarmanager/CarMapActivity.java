@@ -130,7 +130,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                 intent = new Intent(CarMapActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 

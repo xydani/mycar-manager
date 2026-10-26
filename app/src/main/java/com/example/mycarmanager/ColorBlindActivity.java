@@ -132,7 +132,6 @@ public class ColorBlindActivity extends AppCompatActivity {
                 intent = new Intent(ColorBlindActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 

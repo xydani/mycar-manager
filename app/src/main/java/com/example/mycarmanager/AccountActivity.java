@@ -256,7 +256,6 @@ public class AccountActivity extends AppCompatActivity {
                 intent = new Intent(AccountActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 
@@ -268,7 +267,6 @@ public class AccountActivity extends AppCompatActivity {
                 intent = new Intent(AccountActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 

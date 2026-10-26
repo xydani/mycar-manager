@@ -318,7 +318,6 @@ public class CarManageActivity extends AppCompatActivity {
                 intent = new Intent(CarManageActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 

@@ -176,7 +176,6 @@ public class CarGarageActivity extends AppCompatActivity {
                 intent = new Intent(CarGarageActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finishAffinity();
-                finish();
             }
         });
 

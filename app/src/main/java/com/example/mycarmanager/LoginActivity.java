@@ -103,10 +103,9 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-    // finishaffinity rimuove le connessioni con lo stack, finish chiude l'applicazione
+    // finishAffinity chiude tutte le activity dello stack, quindi l'applicazione
     @Override
     public void onBackPressed() {
         finishAffinity();
-        finish();
     }
 }
