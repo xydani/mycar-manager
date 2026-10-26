@@ -73,8 +73,6 @@ public class CarManageActivity extends AppCompatActivity {
     private Slider volumeSlider, radioStationSlider;
     private int volume;
     private float radioStation;
-    private boolean isTouched;
-    private boolean radioChecked;
 
     // Elementi Dialog [AIR]
     private SwitchCompat airSwitch;
@@ -82,8 +80,6 @@ public class CarManageActivity extends AppCompatActivity {
     private TextView temperatureText, powerText;
     private int powerValue;
     private float temperatureValue;
-    private boolean isTouched2;
-    private boolean airChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,10 +143,6 @@ public class CarManageActivity extends AppCompatActivity {
         garageRightArrow = findViewById(R.id.garageRightArrow);
 
         currentSettingIndex = 0;
-        isTouched = false;
-        radioChecked = false;
-        isTouched2 = false;
-        airChecked = false;
     }
 
     private void initWindowsDialogViews() {
@@ -173,7 +165,6 @@ public class CarManageActivity extends AppCompatActivity {
         Radio radio = currentCar.getRadio();
         volume = radio.getVolume();
         radioStation = radio.getRadioStation();
-        radioChecked = (radio.getIsRadioOn());
     }
 
     private void initAirDialogueViews() {
@@ -191,7 +182,6 @@ public class CarManageActivity extends AppCompatActivity {
         AirConditioning air = currentCar.getAirConditioning();
         temperatureValue = air.getTemperature();
         powerValue = air.getPowerLevel();
-        airChecked = (air.getIsAirConditioningOn());
     }
 
     public void initListeners() {
@@ -519,29 +509,11 @@ public class CarManageActivity extends AppCompatActivity {
         });
 
         // Listener SwitchCompat accensione e spegnimento radio
-        switchCompat.setChecked(radioChecked);
-        switchCompat.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isTouched = true;
-                return false;
-            }
-        });
-
+        switchCompat.setChecked(currentCar.getRadio().getIsRadioOn());
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isTouched) {
-                    isTouched = false;
-                    if (isChecked) {
-                        switchCompat.setChecked(true);
-                        radioChecked = true;
-                    }
-                    else {
-                        switchCompat.setChecked(false);
-                        radioChecked = false;
-                    }
-                }
+                currentCar.getRadio().setIsRadioOn(isChecked);
             }
         });
 
@@ -577,30 +549,12 @@ public class CarManageActivity extends AppCompatActivity {
             }
         });
 
-        // Listener SwitchCompat accensione e spegnimento radio
-        airSwitch.setChecked(airChecked);
-        airSwitch.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isTouched2 = true;
-                return false;
-            }
-        });
-
+        // Listener SwitchCompat accensione e spegnimento clima
+        airSwitch.setChecked(currentCar.getAirConditioning().getIsAirConditioningOn());
         airSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isTouched2) {
-                    isTouched2 = false;
-                    if (isChecked) {
-                        airSwitch.setChecked(true);
-                        airChecked = true;
-                    }
-                    else {
-                        airSwitch.setChecked(false);
-                        airChecked = false;
-                    }
-                }
+                currentCar.getAirConditioning().setIsAirConditioningOn(isChecked);
             }
         });
 
