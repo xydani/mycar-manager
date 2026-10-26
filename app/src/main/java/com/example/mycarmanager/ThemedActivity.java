@@ -31,6 +31,14 @@ public class ThemedActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        // Pagina tra le barre di sistema anche da Android 15 (il layout è già impostato in onCreate)
+        SystemBars.applyInsets(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 

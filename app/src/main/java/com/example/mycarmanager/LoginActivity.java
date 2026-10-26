@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SystemBars.applyInsets(this);
 
         // L'utente demo viene creato una sola volta, al primo avvio dell'applicazione
         if(users.isEmpty()){

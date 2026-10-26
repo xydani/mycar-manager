@@ -28,6 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        SystemBars.applyInsets(this);
 
         loginLink = findViewById(R.id.loginLink);
         signupButton = findViewById(R.id.signupButton);
