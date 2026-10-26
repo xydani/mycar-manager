@@ -1,20 +1,15 @@
 package com.example.mycarmanager;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import static com.example.mycarmanager.LoginActivity.currentUserIndex;
-import androidx.appcompat.app.AppCompatActivity;
 import static com.example.mycarmanager.User.users;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SuccessfullConnectionActivity extends AppCompatActivity {
-    public int selectedTheme;
-    public SharedPreferences sharedPreferences;
+public class SuccessfullConnectionActivity extends ThemedActivity {
     private final Handler handler = new Handler(Looper.getMainLooper());
 
     // Porta al garage, chiudendo questa pagina e le eventuali pagine aperte sopra il garage
@@ -32,11 +27,6 @@ public class SuccessfullConnectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Imposta il tema in base alle preferenze
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        selectedTheme = sharedPreferences.getInt("SelectedTheme", 1);
-        changeTheme(selectedTheme);
 
         // Imposta il layout della pagina
         setContentView(R.layout.activity_successfull_connection);
@@ -81,22 +71,5 @@ public class SuccessfullConnectionActivity extends AppCompatActivity {
         // Il garage pieno viene già gestito nella selezione del dispositivo
         if (!availableCars.isEmpty())
             garage.add(availableCars.get(new Random().nextInt(availableCars.size())));
-    }
-
-    public void changeTheme (int newThemeId) {
-        switch (newThemeId) {
-            case 1:
-                SuccessfullConnectionActivity.this.setTheme(R.style.BASE_THEME);
-                break;
-            case 2:
-                SuccessfullConnectionActivity.this.setTheme(R.style.DEUTERAN_THEME);
-                break;
-            case 3:
-                SuccessfullConnectionActivity.this.setTheme(R.style.PROTAN_THEME);
-                break;
-            case 4:
-                SuccessfullConnectionActivity.this.setTheme(R.style.TRITAN_THEME);
-                break;
-        }
     }
 }
