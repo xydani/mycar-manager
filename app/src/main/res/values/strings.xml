@@ -50,4 +50,29 @@
     <string name="title_activity_car_garage">activity_car_garage</string>
     <string name="image_uploader">image_uploader</string>
 
+    <!-- Manage: funzioni dell'auto e stato del pulsante -->
+    <string name="manage_power_on">POWER ON</string>
+    <string name="manage_car_windows">CAR WINDOWS</string>
+    <string name="manage_air_conditioning">AIR CONDITIONING</string>
+    <string name="manage_lock">LOCK</string>
+    <string name="manage_radio">RADIO</string>
+    <string name="manage_headlights">HEADLIGHTS</string>
+    <string name="manage_button_on">ON</string>
+    <string name="manage_button_off">OFF</string>
+    <string name="manage_button_edit">EDIT</string>
+    <string name="manage_button_open">OPEN</string>
+    <string name="manage_button_locked">LOCKED</string>
+    <string name="manage_windows_level">%d%%</string>
+
+    <!-- Features: valori con unità di misura -->
+    <string name="features_weight">%s Kg</string>
+    <string name="features_acceleration">%ss</string>
+    <string name="features_horsepower">%sHP</string>
+    <string name="features_emissions">%sg/1Km</string>
+    <string name="features_consumption_electric">%skWh/100Km</string>
+    <string name="features_consumption_fuel">%sL/100Km</string>
+    <string name="features_energy_level">Energy level</string>
+    <string name="features_fuel_level">Fuel level</string>
+    <string name="features_level">%s%%</string>
+
 </resources>

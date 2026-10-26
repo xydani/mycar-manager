@@ -45,24 +45,24 @@ public class CarFeaturesActivity extends NavigationActivity {
     protected void onCarChanged() {
         // Aggiornamento dati Features
         carDoors.setText(currentCar.getDoors());
-        carWeight.setText(currentCar.getWeight() + " Kg");
+        carWeight.setText(getString(R.string.features_weight, currentCar.getWeight()));
         carSeats.setText(currentCar.getSeats());
-        carAcceleration.setText(currentCar.getAcceleration() + "s");
+        carAcceleration.setText(getString(R.string.features_acceleration, currentCar.getAcceleration()));
         carGears.setText(currentCar.getGears());
-        engineHP.setText(currentCar.getHorsepower() + "HP");
-        carEmissions.setText(currentCar.getEmissions() + "g/1Km");
+        engineHP.setText(getString(R.string.features_horsepower, currentCar.getHorsepower()));
+        carEmissions.setText(getString(R.string.features_emissions, currentCar.getEmissions()));
 
         if(currentCar.getFuelType().equals("electric")) {
-            carConsumptionData.setText(currentCar.getConsumption() + "kWh/100Km");
-            fuelLevelTitle.setText("Energy level");
+            carConsumptionData.setText(getString(R.string.features_consumption_electric, currentCar.getConsumption()));
+            fuelLevelTitle.setText(R.string.features_energy_level);
             fuelLevelImage.setImageResource(R.drawable.garage1_electriccar_img);
         }
         else {
-            carConsumptionData.setText(currentCar.getConsumption() + "L/100Km");
-            fuelLevelTitle.setText("Fuel level");
+            carConsumptionData.setText(getString(R.string.features_consumption_fuel, currentCar.getConsumption()));
+            fuelLevelTitle.setText(R.string.features_fuel_level);
             fuelLevelImage.setImageResource(R.drawable.stats_engine_fuellevel);
         }
 
-        fuelLevelActual.setText(currentCar.getFuelOrEnergyLevel() + "%");
+        fuelLevelActual.setText(getString(R.string.features_level, currentCar.getFuelOrEnergyLevel()));
     }
 }

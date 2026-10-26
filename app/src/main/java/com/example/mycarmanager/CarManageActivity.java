@@ -180,40 +180,40 @@ public class CarManageActivity extends NavigationActivity {
             // CASO POWER ON/OFF
             case 0:
                 if (currentCar.getPowerOn())
-                    showSetting(R.drawable.manage_on, "POWER ON", "ON", R.attr.okBtnBackground);
+                    showSetting(R.drawable.manage_on, R.string.manage_power_on, R.string.manage_button_on, R.attr.okBtnBackground);
                 else
-                    showSetting(R.drawable.manage_on, "POWER ON", "OFF", R.attr.notOkBtnBackground);
+                    showSetting(R.drawable.manage_on, R.string.manage_power_on, R.string.manage_button_off, R.attr.notOkBtnBackground);
                 break;
 
             // CASO CAR WINDOWS
             case 1:
-                showSetting(R.drawable.manage_carwindow, "CAR WINDOWS", "EDIT", R.attr.editBtnBackground);
+                showSetting(R.drawable.manage_carwindow, R.string.manage_car_windows, R.string.manage_button_edit, R.attr.editBtnBackground);
                 break;
 
             // CASO AIR CONDITIONING
             case 2:
-                showSetting(R.drawable.manage_ac, "AIR CONDITIONING", "EDIT", R.attr.editBtnBackground);
+                showSetting(R.drawable.manage_ac, R.string.manage_air_conditioning, R.string.manage_button_edit, R.attr.editBtnBackground);
                 break;
 
             // CASO LOCK
             case 3:
                 if (currentCar.getCarUnlocked())
-                    showSetting(R.drawable.manage_lock, "LOCK", "OPEN", R.attr.okBtnBackground);
+                    showSetting(R.drawable.manage_lock, R.string.manage_lock, R.string.manage_button_open, R.attr.okBtnBackground);
                 else
-                    showSetting(R.drawable.manage_lock, "LOCK", "LOCKED", R.attr.notOkBtnBackground);
+                    showSetting(R.drawable.manage_lock, R.string.manage_lock, R.string.manage_button_locked, R.attr.notOkBtnBackground);
                 break;
 
             // CASO RADIO
             case 4:
-                showSetting(R.drawable.manage_radio, "RADIO", "EDIT", R.attr.editBtnBackground);
+                showSetting(R.drawable.manage_radio, R.string.manage_radio, R.string.manage_button_edit, R.attr.editBtnBackground);
                 break;
 
             // CASO HEADLIGHTS
             case 5:
                 if (currentCar.getAreLightsOn())
-                    showSetting(R.drawable.manage_headlights, "HEADLIGHTS", "ON", R.attr.okBtnBackground);
+                    showSetting(R.drawable.manage_headlights, R.string.manage_headlights, R.string.manage_button_on, R.attr.okBtnBackground);
                 else
-                    showSetting(R.drawable.manage_headlights, "HEADLIGHTS", "OFF", R.attr.notOkBtnBackground);
+                    showSetting(R.drawable.manage_headlights, R.string.manage_headlights, R.string.manage_button_off, R.attr.notOkBtnBackground);
                 break;
 
             default: break;
@@ -221,10 +221,10 @@ public class CarManageActivity extends NavigationActivity {
     }
 
     // Visualizza immagine, nome e pulsante con l'impostazione corrente
-    private void showSetting(int imageId, String functionName, String buttonText, int buttonColorAttr) {
+    private void showSetting(int imageId, int functionNameId, int buttonTextId, int buttonColorAttr) {
         manageImage.setImageResource(imageId);
-        carFunctionText.setText(functionName);
-        functionButton.setText(buttonText);
+        carFunctionText.setText(functionNameId);
+        functionButton.setText(buttonTextId);
         ViewCompat.setBackgroundTintList(functionButton, getButtonColor(buttonColorAttr));
     }
 
@@ -247,11 +247,11 @@ public class CarManageActivity extends NavigationActivity {
         // Listener slider e modifica testo [WINDOWS]
         windowsLevelSlider.setCustomThumbDrawable(R.drawable.black_rectangle);
         windowsLevelSlider.setValue(currentCar.getWindowsLevel());
-        windowsLevelText.setText(currentCar.getWindowsLevel() + "%");
+        windowsLevelText.setText(getString(R.string.manage_windows_level, currentCar.getWindowsLevel()));
         windowsLevelSlider.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                windowsLevelText.setText((int)value + "%");
+                windowsLevelText.setText(getString(R.string.manage_windows_level, (int)value));
                 currentCar.setWindowsLevel((int)value);
             }
         });
