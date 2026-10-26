@@ -5,8 +5,6 @@ import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -23,13 +22,6 @@ import static com.example.mycarmanager.User.users;
 
 
 public class AccountActivity extends NavigationActivity {
-
-    private boolean usrB = false;
-    private boolean usrE = false;
-    private boolean emlB = false;
-    private boolean emlE = false;
-    private boolean pswB = false;
-    private boolean pswE = false;
 
     private CircleImageView profilePic;
     private MaterialButton logoutButton, saveProfileButton;
@@ -56,7 +48,8 @@ public class AccountActivity extends NavigationActivity {
         // Inizializzazione listeners
         initListeners();
 
-        checkInputData();
+        // Controlli input
+        initValidation();
     }
 
     @Override
@@ -145,173 +138,68 @@ public class AccountActivity extends NavigationActivity {
         setProfileImage(profilePic);
     }
 
-    public void checkInputData(){
+    // Ogni campo mostra il proprio errore mentre viene modificato
+    // Un valore uguale a quello attuale dell'utente è sempre valido
+    private void initValidation(){
 
         saveProfileButton.setEnabled(false);
 
-        usernameField.addTextChangedListener(new TextWatcher() {
+        usernameField.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                String currentUsername = currentUser.getUsername();
-
-                if(currentUsername.equals(usernameField.getText().toString())){
-                    usrB = false;
-                    usrE = false;
-                    usernameLayout.setHelperText("");
-                } else if(isUsernameInUse(usernameField.getText().toString())){
-                    usrB = true;
-                    usrE = true;
-                    usernameLayout.setHelperText("Username already in use.");
-                } else if(usernameField.getText().toString().equals("")){
-                    usrB = true;
-                    usrE = true;
-                    usernameLayout.setHelperText("Username cannot be empty");
-                } else {
-                    usrB = true;
-                    usrE = false;
-                    usernameLayout.setHelperText("");
-                }
-
-                if(checkInputValidation(usrB, emlB, pswB, usrE, emlE, pswE))
-                    saveProfileButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.ok_button)));
-                else
-                    saveProfileButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.not_clickable_button)));
+            public void onInputChanged() {
+                String error = getUsernameError();
+                usernameLayout.setHelperText(error != null ? error : "");
+                updateSaveButton();
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
         });
 
-        emailField.addTextChangedListener(new TextWatcher() {
+        emailField.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                String currentEmail = currentUser.getEmail();
-
-                if(currentEmail.equals(emailField.getText().toString())){
-                    emlB = false;
-                    emlE = false;
-                    emailLayout.setHelperText("");
-                } else if(isEmailInUse(emailField.getText().toString())){
-                    emlB = true;
-                    emlE = true;
-                    emailLayout.setHelperText("Email already in use");
-                } else if(emailField.getText().toString().equals("")) {
-                    emlB = true;
-                    emlE = true;
-                    emailLayout.setHelperText("Email cannot be empty");
-                } else if(!emailField.getText().toString().matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")){
-                    emlB = true;
-                    emlE = true;
-                    emailLayout.setHelperText("Invalid email format");
-                } else {
-                    emlB = true;
-                    emlE = false;
-                    emailLayout.setHelperText("");
-                }
-
-                if(checkInputValidation(usrB, emlB, pswB, usrE, emlE, pswE))
-                    saveProfileButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.ok_button)));
-                else
-                    saveProfileButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.not_clickable_button)));
+            public void onInputChanged() {
+                String error = getEmailError();
+                emailLayout.setHelperText(error != null ? error : "");
+                updateSaveButton();
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
         });
 
-        passwordField.addTextChangedListener(new TextWatcher() {
+        passwordField.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                String currentPassword = currentUser.getPassword();
-
-                if(currentPassword.equals(passwordField.getText().toString())){
-                    pswB = false;
-                    pswE = false;
+            public void onInputChanged() {
+                if(passwordField.getText().toString().equals(currentUser.getPassword()))
                     passwordLayout.setHelperText("");
-                } else if(passwordField.getText().toString().equals("")) {
-                    pswB = true;
-                    pswE = true;
-                    passwordLayout.setHelperText("Password cannot be empty");
-                } else if(passwordField.getText().toString().length() < 8){
-                    pswB = true;
-                    pswE = true;
-                    passwordLayout.setHelperText("Must be at least 8 characters");
-                } else if(!passwordField.getText().toString().matches(".*[0-9].*")){
-                    pswB = true;
-                    pswE = true;
-                    passwordLayout.setHelperText("Must contain 1 number");
-                } else if(!passwordField.getText().toString().matches(".*[a-z].*")){
-                    pswB = true;
-                    pswE = true;
-                    passwordLayout.setHelperText("Must contain 1 lower-case letter");
-                } else if(!passwordField.getText().toString().matches(".*[A-Z].*")){
-                    pswB = true;
-                    pswE = true;
-                    passwordLayout.setHelperText("Must contain 1 upper-case letter");
-                } else if(passwordField.getText().toString().matches("[a-zA-Z0-9]*")){
-                    pswB = true;
-                    pswE = true;
-                    passwordLayout.setHelperText("Must contain 1 special character");
-                } else {
-                    pswB = true;
-                    pswE = false;
-                    passwordLayout.setHelperText(null);
-                }
-
-                if(checkInputValidation(usrB, emlB, pswB, usrE, emlE, pswE))
-                    saveProfileButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.ok_button)));
                 else
-                    saveProfileButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.not_clickable_button)));
-            }
+                    passwordLayout.setHelperText(getPasswordError());
 
-            @Override
-            public void afterTextChanged(Editable editable) {}
+                updateSaveButton();
+            }
         });
     }
 
-    // Ritorna true se lo username è già usato da un utente registrato
-    private boolean isUsernameInUse(String username){
-        for(User user : users){
-            if(user.getUsername().equals(username))
-                return true;
-        }
-        return false;
+    private String getUsernameError(){
+        String username = usernameField.getText().toString();
+        return username.equals(currentUser.getUsername()) ? null : InputValidation.checkUsername(username);
     }
 
-    // Ritorna true se l'email è già usata da un utente registrato
-    private boolean isEmailInUse(String email){
-        for(User user : users){
-            if(user.getEmail().equals(email))
-                return true;
-        }
-        return false;
+    private String getEmailError(){
+        String email = emailField.getText().toString();
+        return email.equals(currentUser.getEmail()) ? null : InputValidation.checkEmail(email);
     }
 
-    // Ritorna true solo se tutti i campi di input sono validati correttamente
-    // Abilita o disabilita di conseguenza il pulsante Save
-    public boolean checkInputValidation(boolean usrB, boolean emlB, boolean pswB, boolean usrE, boolean emlE, boolean pswE){
-        boolean edited = usrB || emlB ||  pswB;
-        boolean errors = !usrE && !emlE && !pswE;
+    private String getPasswordError(){
+        String password = passwordField.getText().toString();
+        return password.equals(currentUser.getPassword()) ? null : InputValidation.checkPassword(password);
+    }
 
-        if(edited && errors){
-            saveProfileButton.setEnabled(true);
-            return true;
-        } else {
-            saveProfileButton.setEnabled(false);
-            return false;
-        }
+    // Abilita il pulsante Save solo se almeno un campo è stato modificato e tutti i campi sono validi
+    private void updateSaveButton(){
+        boolean edited = !usernameField.getText().toString().equals(currentUser.getUsername())
+                || !emailField.getText().toString().equals(currentUser.getEmail())
+                || !passwordField.getText().toString().equals(currentUser.getPassword());
+        boolean valid = getUsernameError() == null && getEmailError() == null && getPasswordError() == null;
+        int color = edited && valid ? R.color.ok_button : R.color.not_clickable_button;
+
+        saveProfileButton.setEnabled(edited && valid);
+        saveProfileButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, color)));
     }
 
     public void editProfile() {
