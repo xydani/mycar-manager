@@ -11,8 +11,8 @@ import android.content.SharedPreferences.Editor;
 
 public class ColorBlindActivity extends NavigationActivity {
     // Testo mostrato per ogni filtro, nell'ordine dei temi [NOR-DEU-PRO-TRI]
-    private static final String[] FILTER_NAMES = {
-            "NO FILTER APPLIED", "DEUTERAN FIX FILTER", "PROTAN FIX FILTER", "TRITAN FIX FILTER"
+    private static final int[] FILTER_NAMES = {
+            R.string.filter_none, R.string.filter_deuteran, R.string.filter_protan, R.string.filter_tritan
     };
 
     // Sfondo del pulsante selezionato, in base al tema attivo [NOR-DEU-PRO-TRI]

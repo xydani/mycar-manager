@@ -109,22 +109,21 @@ public class DeviceSelectionActivity extends ThemedActivity {
 
                 // Chi ha già almeno un'auto torna al garage, altrimenti al login
                 if(users.get(currentUserIndex).getGarage().size() > 0)
-                    showAbortDialog("Garage", CarGarageActivity.class);
+                    showAbortDialog(R.string.abort_connection_garage, CarGarageActivity.class);
                 else
-                    showAbortDialog("Login", LoginActivity.class);
+                    showAbortDialog(R.string.abort_connection_login, LoginActivity.class);
             }
         });
     }
 
     // Chiede conferma prima di interrompere la connessione e tornare alla pagina indicata
-    private void showAbortDialog(String pageName, final Class<?> returnActivity) {
+    private void showAbortDialog(int pageNameId, final Class<?> returnActivity) {
         AlertDialog alertDialog = new AlertDialog.Builder(DeviceSelectionActivity.this, R.style.TutorialAlertDialogStyle).create();
-        alertDialog.setTitle("ABORT CONNECTION?");
-        alertDialog.setMessage("Are you sure you want to abort the connection process?" +
-                " By clicking YES you will be redirect to the " + pageName + " page!");
+        alertDialog.setTitle(getString(R.string.abort_connection_title));
+        alertDialog.setMessage(getString(R.string.abort_connection_message, getString(pageNameId)));
 
         // Tasto negativo [continua con la connessione]
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.dialog_no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -132,7 +131,7 @@ public class DeviceSelectionActivity extends ThemedActivity {
         });
 
         // Tasto affermativo [esci dalla pagina]
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.dialog_yes),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

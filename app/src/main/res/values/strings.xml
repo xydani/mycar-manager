@@ -90,4 +90,18 @@
     <string name="error_passwords_not_same">Passwords are not the same</string>
     <string name="error_image_type">Select a PNG or JPG file</string>
 
+    <!-- Color blind: nome del filtro mostrato sull'immagine di esempio -->
+    <string name="filter_none">NO FILTER APPLIED</string>
+    <string name="filter_deuteran">DEUTERAN FIX FILTER</string>
+    <string name="filter_protan">PROTAN FIX FILTER</string>
+    <string name="filter_tritan">TRITAN FIX FILTER</string>
+
+    <!-- Selezione dispositivo: annullamento della connessione -->
+    <string name="abort_connection_title">ABORT CONNECTION?</string>
+    <string name="abort_connection_message">Are you sure you want to abort the connection process? By clicking YES you will be redirect to the %s page!</string>
+    <string name="abort_connection_garage">Garage</string>
+    <string name="abort_connection_login">Login</string>
+    <string name="dialog_yes">YES</string>
+    <string name="dialog_no">NO</string>
+
 </resources>
