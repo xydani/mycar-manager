@@ -433,28 +433,23 @@ public class AccountActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 String currentUsername = currentUser.getUsername();
-                int numberOfUsers = users.size();
 
-                for(int c = 0; c < numberOfUsers; c++){
-                    if(usernameField.getText().toString().equals(users.get(c).getUsername())){
-                        if(currentUsername.equals(usernameField.getText().toString())){
-                            usrB = false;
-                            usrE = false;
-                            usernameLayout.setHelperText("");
-                        } else {
-                            usrB = true;
-                            usrE = true;
-                            usernameLayout.setHelperText("Username already in use.");
-                        }
-                    } else if(usernameField.getText().toString().equals("")){
-                        usrB = true;
-                        usrE = true;
-                        usernameLayout.setHelperText("Username cannot be empty");
-                    } else {
-                        usrB = true;
-                        usrE = false;
-                        usernameLayout.setHelperText("");
-                    }
+                if(currentUsername.equals(usernameField.getText().toString())){
+                    usrB = false;
+                    usrE = false;
+                    usernameLayout.setHelperText("");
+                } else if(isUsernameInUse(usernameField.getText().toString())){
+                    usrB = true;
+                    usrE = true;
+                    usernameLayout.setHelperText("Username already in use.");
+                } else if(usernameField.getText().toString().equals("")){
+                    usrB = true;
+                    usrE = true;
+                    usernameLayout.setHelperText("Username cannot be empty");
+                } else {
+                    usrB = true;
+                    usrE = false;
+                    usernameLayout.setHelperText("");
                 }
 
                 if(checkInputValidation(usrB, emlB, pswB, usrE, emlE, pswE))
@@ -475,32 +470,27 @@ public class AccountActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 String currentEmail = currentUser.getEmail();
-                int numberOfUsers = users.size();
 
-                for(int c = 0; c < numberOfUsers; c++){
-                    if(emailField.getText().toString().equals(users.get(c).getEmail())){
-                        if(currentEmail.equals(emailField.getText().toString())){
-                            emlB = false;
-                            emlE = false;
-                            emailLayout.setHelperText("");
-                        } else {
-                            emlB = true;
-                            emlE = true;
-                            emailLayout.setHelperText("Email already in use");
-                        }
-                    } else if(emailField.getText().toString().equals("")) {
-                        emlB = true;
-                        emlE = true;
-                        emailLayout.setHelperText("Email cannot be empty");
-                    } else if(!emailField.getText().toString().matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")){
-                        emlB = true;
-                        emlE = true;
-                        emailLayout.setHelperText("Invalid email format");
-                    } else {
-                        emlB = true;
-                        emlE = false;
-                        emailLayout.setHelperText("");
-                    }
+                if(currentEmail.equals(emailField.getText().toString())){
+                    emlB = false;
+                    emlE = false;
+                    emailLayout.setHelperText("");
+                } else if(isEmailInUse(emailField.getText().toString())){
+                    emlB = true;
+                    emlE = true;
+                    emailLayout.setHelperText("Email already in use");
+                } else if(emailField.getText().toString().equals("")) {
+                    emlB = true;
+                    emlE = true;
+                    emailLayout.setHelperText("Email cannot be empty");
+                } else if(!emailField.getText().toString().matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")){
+                    emlB = true;
+                    emlE = true;
+                    emailLayout.setHelperText("Invalid email format");
+                } else {
+                    emlB = true;
+                    emlE = false;
+                    emailLayout.setHelperText("");
                 }
 
                 if(checkInputValidation(usrB, emlB, pswB, usrE, emlE, pswE))
@@ -571,6 +561,24 @@ public class AccountActivity extends AppCompatActivity {
         // Apre la navbar laterale
         drawerLayout.openDrawer(GravityCompat.START);
         navMenu.bringToFront();
+    }
+
+    // Ritorna true se lo username è già usato da un utente registrato
+    private boolean isUsernameInUse(String username){
+        for(User user : users){
+            if(user.getUsername().equals(username))
+                return true;
+        }
+        return false;
+    }
+
+    // Ritorna true se l'email è già usata da un utente registrato
+    private boolean isEmailInUse(String email){
+        for(User user : users){
+            if(user.getEmail().equals(email))
+                return true;
+        }
+        return false;
     }
 
     // Ritorna true solo se tutti i campi di input sono validati correttamente
