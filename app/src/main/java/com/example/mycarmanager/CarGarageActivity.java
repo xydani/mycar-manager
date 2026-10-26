@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
+import java.util.Locale;
 
 public class CarGarageActivity extends NavigationActivity {
     // Dichiarazione di variabili di istanza
@@ -103,6 +104,6 @@ public class CarGarageActivity extends NavigationActivity {
 
     // "diesel" -> "Diesel"
     private static String capitalize(String text) {
-        return text.substring(0, 1).toUpperCase() + text.substring(1);
+        return text.substring(0, 1).toUpperCase(Locale.ROOT) + text.substring(1);
     }
 }
