@@ -11,7 +11,7 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace = 'com.example.mycarmanager'
-    compileSdk = 33
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.mycarmanager"
