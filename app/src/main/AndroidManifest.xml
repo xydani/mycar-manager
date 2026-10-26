@@ -19,8 +19,7 @@
             android:exported="false" />
         <activity
             android:name=".ColorBlindActivity"
-            android:exported="false"
-            android:theme="@style/BASE_THEME" />
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -41,8 +40,7 @@
         <activity
             android:name=".CarGarageActivity"
             android:exported="false"
-            android:label="@string/title_activity_car_garage"
-            android:theme="@style/BASE_THEME" />
+            android:label="@string/title_activity_car_garage" />
         <activity
             android:name=".FailedConnectionActivity"
             android:exported="false" />
