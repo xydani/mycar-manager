@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import static com.example.mycarmanager.LoginActivity.currentUserIndex;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,19 @@ import java.util.Random;
 public class SuccessfullConnectionActivity extends AppCompatActivity {
     public int selectedTheme;
     public SharedPreferences sharedPreferences;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
+    // Porta al garage, chiudendo questa pagina e le eventuali pagine aperte sopra il garage
+    private final Runnable goToGarage = new Runnable() {
+        @Override
+        public void run() {
+            Intent goToHomePage;
+            goToHomePage = new Intent(SuccessfullConnectionActivity.this, CarGarageActivity.class);
+            goToHomePage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(goToHomePage);
+            finish();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +41,25 @@ public class SuccessfullConnectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_successfull_connection);
 
         // Aggiunta di un auto casuale al garage dell'utente
-        boolean carAdded;
-        do {
-            carAdded = addRandomCar();
-        } while (!carAdded);
+        // (solo alla prima creazione, non quando l'activity viene ricreata, es. rotazione)
+        if (savedInstanceState == null) {
+            boolean carAdded;
+            do {
+                carAdded = addRandomCar();
+            } while (!carAdded);
+        }
 
         // Secondi di caricamento dopo la prima connessione
         // prima di essere indirizzati al garage
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent goToHomePage;
-                goToHomePage = new Intent(SuccessfullConnectionActivity.this, CarGarageActivity.class);
-                startActivity(goToHomePage);
-            }
-        }, 3000);
+        handler.postDelayed(goToGarage, 3000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Evita che una pagina già chiusa apra il garage
+        handler.removeCallbacks(goToGarage);
     }
 
     // Metodo che aggiunge un auto random al garage dell'utente
