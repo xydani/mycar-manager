@@ -17,9 +17,9 @@ public class InputValidationTest {
 
     @Test
     public void checkUsername() {
-        assertEquals("Username already in use", InputValidation.checkUsername("user"));
-        assertEquals("Username cannot be empty", InputValidation.checkUsername(""));
-        assertNull(InputValidation.checkUsername("mario"));
+        assertEquals(R.string.error_username_in_use, InputValidation.checkUsername("user"));
+        assertEquals(R.string.error_username_empty, InputValidation.checkUsername(""));
+        assertEquals(InputValidation.VALID, InputValidation.checkUsername("mario"));
     }
 
     @Test
@@ -27,27 +27,27 @@ public class InputValidationTest {
         // Prima il ciclo sugli utenti teneva solo l'esito dell'ultimo
         new User("mario", "Password1!", "mario@email.it", "default_profile_pic");
 
-        assertEquals("Username already in use", InputValidation.checkUsername("user"));
-        assertEquals("Username already in use", InputValidation.checkUsername("mario"));
+        assertEquals(R.string.error_username_in_use, InputValidation.checkUsername("user"));
+        assertEquals(R.string.error_username_in_use, InputValidation.checkUsername("mario"));
     }
 
     @Test
     public void checkEmail() {
-        assertEquals("Email already in use", InputValidation.checkEmail("user@email.it"));
-        assertEquals("Email cannot be empty", InputValidation.checkEmail(""));
-        assertEquals("Invalid email format", InputValidation.checkEmail("mario"));
-        assertEquals("Invalid email format", InputValidation.checkEmail("mario@email"));
-        assertNull(InputValidation.checkEmail("mario@email.it"));
+        assertEquals(R.string.error_email_in_use, InputValidation.checkEmail("user@email.it"));
+        assertEquals(R.string.error_email_empty, InputValidation.checkEmail(""));
+        assertEquals(R.string.error_email_format, InputValidation.checkEmail("mario"));
+        assertEquals(R.string.error_email_format, InputValidation.checkEmail("mario@email"));
+        assertEquals(InputValidation.VALID, InputValidation.checkEmail("mario@email.it"));
     }
 
     @Test
     public void checkPassword() {
-        assertEquals("Password cannot be empty", InputValidation.checkPassword(""));
-        assertEquals("Must be at least 8 characters", InputValidation.checkPassword("Ab1!"));
-        assertEquals("Must contain 1 number", InputValidation.checkPassword("Abcdefgh!"));
-        assertEquals("Must contain 1 lower-case letter", InputValidation.checkPassword("ABCDEFG1!"));
-        assertEquals("Must contain 1 upper-case letter", InputValidation.checkPassword("abcdefg1!"));
-        assertEquals("Must contain 1 special character", InputValidation.checkPassword("Abcdefg12"));
-        assertNull(InputValidation.checkPassword("Abcdefg1!"));
+        assertEquals(R.string.error_password_empty, InputValidation.checkPassword(""));
+        assertEquals(R.string.error_password_length, InputValidation.checkPassword("Ab1!"));
+        assertEquals(R.string.error_password_number, InputValidation.checkPassword("Abcdefgh!"));
+        assertEquals(R.string.error_password_lower_case, InputValidation.checkPassword("ABCDEFG1!"));
+        assertEquals(R.string.error_password_upper_case, InputValidation.checkPassword("abcdefg1!"));
+        assertEquals(R.string.error_password_special_character, InputValidation.checkPassword("Abcdefg12"));
+        assertEquals(InputValidation.VALID, InputValidation.checkPassword("Abcdefg1!"));
     }
 }

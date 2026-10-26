@@ -69,7 +69,7 @@ public class AccountActivity extends NavigationActivity {
                 updateUserData();
                 updateData();
             } else {
-                Toast.makeText(this, "Select a PNG or JPG file", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.error_image_type, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -147,8 +147,8 @@ public class AccountActivity extends NavigationActivity {
         usernameField.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
             public void onInputChanged() {
-                String error = getUsernameError();
-                usernameLayout.setHelperText(error != null ? error : "");
+                int error = getUsernameError();
+                usernameLayout.setHelperText(error != InputValidation.VALID ? getString(error) : "");
                 updateSaveButton();
             }
         });
@@ -156,8 +156,8 @@ public class AccountActivity extends NavigationActivity {
         emailField.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
             public void onInputChanged() {
-                String error = getEmailError();
-                emailLayout.setHelperText(error != null ? error : "");
+                int error = getEmailError();
+                emailLayout.setHelperText(error != InputValidation.VALID ? getString(error) : "");
                 updateSaveButton();
             }
         });
@@ -167,27 +167,29 @@ public class AccountActivity extends NavigationActivity {
             public void onInputChanged() {
                 if(passwordField.getText().toString().equals(currentUser.getPassword()))
                     passwordLayout.setHelperText("");
+                else if(getPasswordError() != InputValidation.VALID)
+                    passwordLayout.setHelperText(getString(getPasswordError()));
                 else
-                    passwordLayout.setHelperText(getPasswordError());
+                    passwordLayout.setHelperText(null);
 
                 updateSaveButton();
             }
         });
     }
 
-    private String getUsernameError(){
+    private int getUsernameError(){
         String username = usernameField.getText().toString();
-        return username.equals(currentUser.getUsername()) ? null : InputValidation.checkUsername(username);
+        return username.equals(currentUser.getUsername()) ? InputValidation.VALID : InputValidation.checkUsername(username);
     }
 
-    private String getEmailError(){
+    private int getEmailError(){
         String email = emailField.getText().toString();
-        return email.equals(currentUser.getEmail()) ? null : InputValidation.checkEmail(email);
+        return email.equals(currentUser.getEmail()) ? InputValidation.VALID : InputValidation.checkEmail(email);
     }
 
-    private String getPasswordError(){
+    private int getPasswordError(){
         String password = passwordField.getText().toString();
-        return password.equals(currentUser.getPassword()) ? null : InputValidation.checkPassword(password);
+        return password.equals(currentUser.getPassword()) ? InputValidation.VALID : InputValidation.checkPassword(password);
     }
 
     // Abilita il pulsante Save solo se almeno un campo è stato modificato e tutti i campi sono validi
@@ -195,7 +197,8 @@ public class AccountActivity extends NavigationActivity {
         boolean edited = !usernameField.getText().toString().equals(currentUser.getUsername())
                 || !emailField.getText().toString().equals(currentUser.getEmail())
                 || !passwordField.getText().toString().equals(currentUser.getPassword());
-        boolean valid = getUsernameError() == null && getEmailError() == null && getPasswordError() == null;
+        boolean valid = getUsernameError() == InputValidation.VALID && getEmailError() == InputValidation.VALID
+                && getPasswordError() == InputValidation.VALID;
         int color = edited && valid ? R.color.ok_button : R.color.not_clickable_button;
 
         saveProfileButton.setEnabled(edited && valid);

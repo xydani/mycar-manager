@@ -92,8 +92,8 @@ public class RegistrationActivity extends AppCompatActivity {
         registrationUsername.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
             public void onInputChanged() {
-                String error = InputValidation.checkUsername(registrationUsername.getText().toString());
-                usernameContainer.setHelperText(error != null ? error : "");
+                int error = InputValidation.checkUsername(registrationUsername.getText().toString());
+                usernameContainer.setHelperText(error != InputValidation.VALID ? getString(error) : "");
                 updateSignupButton();
             }
         });
@@ -101,8 +101,8 @@ public class RegistrationActivity extends AppCompatActivity {
         registrationEmail.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
             public void onInputChanged() {
-                String error = InputValidation.checkEmail(registrationEmail.getText().toString());
-                emailContainer.setHelperText(error != null ? error : "");
+                int error = InputValidation.checkEmail(registrationEmail.getText().toString());
+                emailContainer.setHelperText(error != InputValidation.VALID ? getString(error) : "");
                 updateSignupButton();
             }
         });
@@ -110,7 +110,8 @@ public class RegistrationActivity extends AppCompatActivity {
         registrationPassword.addTextChangedListener(new InputValidation.InputWatcher() {
             @Override
             public void onInputChanged() {
-                firstPasswordContainer.setHelperText(InputValidation.checkPassword(registrationPassword.getText().toString()));
+                int error = InputValidation.checkPassword(registrationPassword.getText().toString());
+                firstPasswordContainer.setHelperText(error != InputValidation.VALID ? getString(error) : null);
 
                 // Se la conferma è già stata inserita va ricontrollata con la nuova password
                 if(isSecondPasswordEdited)
@@ -135,7 +136,7 @@ public class RegistrationActivity extends AppCompatActivity {
         if(passwordsMatch())
             secondPasswordContainer.setHelperText(null);
         else
-            secondPasswordContainer.setHelperText("Passwords are not the same");
+            secondPasswordContainer.setHelperText(getString(R.string.error_passwords_not_same));
     }
 
     private boolean passwordsMatch(){
@@ -144,9 +145,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
     // Ritorna true solo se tutti i campi di input sono validi
     private boolean isFormValid(){
-        return InputValidation.checkUsername(registrationUsername.getText().toString()) == null
-                && InputValidation.checkEmail(registrationEmail.getText().toString()) == null
-                && InputValidation.checkPassword(registrationPassword.getText().toString()) == null
+        return InputValidation.checkUsername(registrationUsername.getText().toString()) == InputValidation.VALID
+                && InputValidation.checkEmail(registrationEmail.getText().toString()) == InputValidation.VALID
+                && InputValidation.checkPassword(registrationPassword.getText().toString()) == InputValidation.VALID
                 && passwordsMatch();
     }
 

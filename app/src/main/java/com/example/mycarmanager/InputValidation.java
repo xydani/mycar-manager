@@ -6,41 +6,44 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 // Controlli sui dati inseriti nella registrazione e nella modifica dell'account
-// I metodi check* restituiscono il messaggio di errore da mostrare, oppure null se il valore è valido
+// I metodi check* restituiscono l'id della stringa con il messaggio di errore da mostrare,
+// oppure VALID se il valore è valido
 public class InputValidation {
 
-    public static String checkUsername(String username) {
+    public static final int VALID = 0;
+
+    public static int checkUsername(String username) {
         if (isUsernameInUse(username))
-            return "Username already in use";
+            return R.string.error_username_in_use;
         if (username.isEmpty())
-            return "Username cannot be empty";
-        return null;
+            return R.string.error_username_empty;
+        return VALID;
     }
 
-    public static String checkEmail(String email) {
+    public static int checkEmail(String email) {
         if (isEmailInUse(email))
-            return "Email already in use";
+            return R.string.error_email_in_use;
         if (email.isEmpty())
-            return "Email cannot be empty";
+            return R.string.error_email_empty;
         if (!email.matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$"))
-            return "Invalid email format";
-        return null;
+            return R.string.error_email_format;
+        return VALID;
     }
 
-    public static String checkPassword(String password) {
+    public static int checkPassword(String password) {
         if (password.isEmpty())
-            return "Password cannot be empty";
+            return R.string.error_password_empty;
         if (password.length() < 8)
-            return "Must be at least 8 characters";
+            return R.string.error_password_length;
         if (!password.matches(".*[0-9].*"))
-            return "Must contain 1 number";
+            return R.string.error_password_number;
         if (!password.matches(".*[a-z].*"))
-            return "Must contain 1 lower-case letter";
+            return R.string.error_password_lower_case;
         if (!password.matches(".*[A-Z].*"))
-            return "Must contain 1 upper-case letter";
+            return R.string.error_password_upper_case;
         if (password.matches("[a-zA-Z0-9]*"))
-            return "Must contain 1 special character";
-        return null;
+            return R.string.error_password_special_character;
+        return VALID;
     }
 
     // Ritorna true se lo username è già usato da un utente registrato
