@@ -9,7 +9,6 @@ public class User {
     private String imageUri;
     private ArrayList<Car> garage = new ArrayList<>();
     protected static ArrayList<User> users = new ArrayList<>();
-    protected static boolean adminCreated = false;
 
     public User(){
 

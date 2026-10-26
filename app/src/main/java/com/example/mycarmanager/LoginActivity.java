@@ -1,7 +1,6 @@
 package com.example.mycarmanager;
 
 import static com.example.mycarmanager.User.users;
-import static com.example.mycarmanager.User.adminCreated;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,12 +22,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(!adminCreated){
+        // L'utente demo viene creato una sola volta, al primo avvio dell'applicazione
+        if(users.isEmpty()){
             new User("user", "user",
                     "user@email.it", "default_profile_pic");
-            adminCreated = true;
-        } else {
-            adminCreated = false;
         }
 
         signupLink = findViewById(R.id.signupLink);
