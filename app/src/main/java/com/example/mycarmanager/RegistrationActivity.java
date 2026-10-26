@@ -162,11 +162,11 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 if(isEmailInUse(registrationEmail.getText().toString())){
-                    isEmailChecked = true;
+                    isEmailEdited = true;
                     hasEmailErrors = true;
                     emailContainer.setHelperText("Email already in use");
                 } else if(registrationEmail.getText().toString().equals("")){
-                    isEmailChecked = true;
+                    isEmailEdited = true;
                     hasEmailErrors = true;
                     emailContainer.setHelperText("Email cannot be empty");
                 } else if(!registrationEmail.getText().toString().matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")){
@@ -174,7 +174,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     hasEmailErrors = true;
                     emailContainer.setHelperText("Invalid email format");
                 } else {
-                    isEmailChecked = true;
+                    isEmailEdited = true;
                     hasEmailErrors = false;
                     emailContainer.setHelperText("");
                 }
@@ -260,7 +260,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     hasSecondPasswordErrors = true;
                     secondPasswordContainer.setHelperText("Passwords are not the same");
                 } else {
-                    isSecondPasswordChecked = true;
+                    isSecondPasswordEdited = true;
                     hasSecondPasswordErrors = false;
                     secondPasswordContainer.setHelperText(null);
                 }
