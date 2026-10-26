@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         if(!adminCreated){
-            User loggedUser = new User("user", "user",
+            new User("user", "user",
                     "user@email.it", "default_profile_pic");
             adminCreated = true;
         } else {

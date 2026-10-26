@@ -37,11 +37,11 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     private LinearLayout navMenuButton, bottomNavbarGarageButton;
     private LinearLayout bottomNavbarManageButton, bottomNavbarMapButton, bottomNavbarFeaturesButton,
             bottomNavbarAlertsButton;
-    private TextView activityTitle, navBarUsername, navbarEmail, carName, carPlate;
+    private TextView navBarUsername, navbarEmail, carName, carPlate;
     private CircleImageView navbarProfilePic;
     private MaterialButton navbarGarageButton, navbarManageButton, navbarMapButton, navbarFeaturesButton,
             navbarAccountButton, navbarNewCarButton, navbarColorCorrectionButton,
-            navbarLogoutButton, newCarButton, navbarAlertsButton;
+            navbarLogoutButton, navbarAlertsButton;
 
     public ImageView leftArow, rightArrow;
 
@@ -88,7 +88,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         bottomNavbarGarageButton = findViewById(R.id.garageButtonContainer);
         bottomNavbarMapButton = findViewById(R.id.mapButtonContainer);
         bottomNavbarAlertsButton = findViewById(R.id.alertsButtonContainer);
-        activityTitle = findViewById(R.id.activityTitle);
         navBarUsername = findViewById(R.id.navBarUsername);
         navbarEmail = findViewById(R.id.navbarEmail);
         navbarProfilePic = findViewById(R.id.navbarProfilePic);
@@ -326,8 +325,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     public void updateData(){
-
-        //activityTitle.setText(currentCar.getBrand() + " " + currentCar.getName() + " Map");
 
         // aggiorna informazioni utente loggato nella navbar
         navBarUsername.setText(currentUser.getUsername());

@@ -44,9 +44,6 @@ public class AccountActivity extends AppCompatActivity {
     private static boolean pswB = false;
     private static boolean pswE = false;
 
-    // Variabile che conserva temporaneamente l'immagine del profilo selezionata
-    // nel dialog di modifica del profilo
-    String currentImagePath;
     private CircleImageView navbarProfilePic, profilePic;
     private Dialog alertsDialog;
     private DrawerLayout drawerLayout;
@@ -89,8 +86,6 @@ public class AccountActivity extends AppCompatActivity {
         initListeners();
 
         checkInputData();
-
-        currentImagePath = currentUser.getImgPath();
     }
 
     @Override

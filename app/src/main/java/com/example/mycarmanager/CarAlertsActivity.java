@@ -41,7 +41,7 @@ public class CarAlertsActivity extends AppCompatActivity {
     private CircleImageView navbarProfilePic;
     private MaterialButton navbarGarageButton, navbarManageButton, navbarMapButton, navbarFeaturesButton,
             navbarAccountButton, navbarNewCarButton, navbarColorCorrectionButton,
-            navbarLogoutButton, newCarButton;
+            navbarLogoutButton;
     private DrawerLayout drawerLayout;
 
     public SharedPreferences sharedPreferences;
@@ -97,7 +97,6 @@ public class CarAlertsActivity extends AppCompatActivity {
         navbarMapButton = findViewById(R.id.navbarMapButton);
         navbarNewCarButton = findViewById(R.id.navbarNewCarButton);
         navbarProfilePic = findViewById(R.id.navbarProfilePic);
-        newCarButton = findViewById(R.id.newCarButton);
         drawerLayout = findViewById(R.id.drawerLayout);
 
         alertBox1 = findViewById(R.id.alertBox1);
